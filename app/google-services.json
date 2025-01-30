@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "375564270553",
+    "project_id": "healthyone-633f6",
+    "storage_bucket": "healthyone-633f6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375564270553:android:8aaa4a9ef4e2f38b0977c8",
+        "android_client_info": {
+          "package_name": "com.lirans2341project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkJhK_LJpG2GKi_LIWCTv9316GtlVRT2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

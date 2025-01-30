@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Cities2">
+
+        <item>ירושלים</item>
+        <item>תל אביב</item>
+        <item>רמת גן</item>
+        <item>חיפה</item>
+        <item>פתח תקווה</item>
+        <item>בת ים</item>
+        <item>חולון</item>
+        <item>הרצליה</item>
+        <item>עכו</item>
+        <item>ראשון לציון</item>
+
+    </string-array>
+
+    <string-array name="Categoriesar2">
+
+        <item>חולצות</item>
+        <item>מכנסיים</item>
+        <item>שמלות</item>
+        <item>אוברול</item>
+        <item>חצאיות</item>
+        <item>סטים</item>
+    </string-array>
+
+    <string-array name="Sizesar2">
+
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+    </string-array>
+
+    <string-array name="Colors2">
+
+        <item>אדום</item>
+        <item>שחור</item>
+        <item>לבן</item>
+        <item>כחול</item>
+        <item>אפור</item>
+        <item>ורוד</item>
+        <item>צהוב</item>
+        <item>ירוק</item>
+        <item>כתום</item>
+        <item>אחר</item>
+    </string-array>
+
+    <string-array name="Fabricar2">
+
+        <item>כותנה</item>
+        <item>בד גרסי</item>
+        <item>זמש</item>
+        <item>לייקרה</item>
+        <item>דנים(גינס)</item>
+        <item>מלמלה</item>
+        <item>סריג</item>
+        <item>שיפון</item>
+        <item>סאטן</item>
+        <item>אחר</item>
+    </string-array>
+
+    <string-array name="BuyOrRent">
+
+        <item>מכירה</item>
+        <item>השכרה</item>
+        <item>מכירה או השכרה</item>
+    </string-array>
+</resources>
