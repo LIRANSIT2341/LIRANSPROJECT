@@ -7,4 +7,27 @@
     android:layout_height="match_parent"
     tools:context=".MyItems">
 
+    <ListView
+        android:id="@+id/lvMyItems"
+        android:layout_width="393dp"
+        android:layout_height="596dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="354dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="20dp"
+        android:text="הפריטים שהעלתי:"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
