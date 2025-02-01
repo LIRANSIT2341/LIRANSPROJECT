@@ -52,7 +52,7 @@
             android:name=".DonationPlaceProfile"
             android:exported="false" />
         <activity
-            android:name=".AboutAs"
+            android:name=".AboutUs"
             android:exported="false" />
         <activity
             android:name=".activity_add_item"

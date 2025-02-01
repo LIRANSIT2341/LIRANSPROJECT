@@ -185,7 +185,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener {
             startActivity(goadmin);
         }
         if (itemid == R.id.menuGoAboutUs) {
-            Intent goadmin = new Intent(AddItem.this, AboutAs.class);
+            Intent goadmin = new Intent(AddItem.this, AboutUs.class);
             startActivity(goadmin);
         }
         if (itemid == R.id.menuGoAfterLogin) {
