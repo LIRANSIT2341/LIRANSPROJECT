@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_add_cart" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_selected_foods"
+        android:id="@+id/recycler_view_selected_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"

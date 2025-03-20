@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.lirans2341project.model.Cart;
 import com.lirans2341project.model.Item;
 import com.lirans2341project.model.User;
 
@@ -64,6 +65,7 @@ public class DatabaseService {
     }
 
 
+
     // private generic methods to write and read data from the database
 
     /// write data to the database at a specific path
@@ -81,6 +83,27 @@ public class DatabaseService {
                 if (callback == null) return;
                 callback.onFailed(task.getException());
             }
+        });
+    }
+
+    /// get a list of data from the database at a specific path
+    /// @param path the path to get the data from
+    /// @param clazz the class of the objects to return
+    /// @param callback the callback to call when the operation is completed
+    private <T> void getDataList(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull final DatabaseCallback<List<T>> callback) {
+        readData(path).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "Error getting data", task.getException());
+                callback.onFailed(task.getException());
+                return;
+            }
+            List<T> tList = new ArrayList<>();
+            task.getResult().getChildren().forEach(dataSnapshot -> {
+                T t = dataSnapshot.getValue(clazz);
+                tList.add(t);
+            });
+
+            callback.onCompleted(tList);
         });
     }
 
@@ -159,9 +182,20 @@ public class DatabaseService {
         getData("items/" + id, Item.class, callback);
     }
 
+    public void getItemList(@NotNull final DatabaseCallback<List<Item>> callback){
+        getDataList("items", Item.class, callback);
+    }
+
 
     public String generateItemId() {
         return generateNewId("items");
+    }
+    public String generateCartId() {
+        return generateNewId("carts");
+    }
+
+    public void createNewCart(@NotNull final Cart cart, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("carts/" + cart.getId(), cart, callback);
     }
 
 }

@@ -1,26 +1,233 @@
-package com.lirans2341project.screen;
+package com.example.testapp.screens;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.lirans2341project.R;
+import com.lirans2341project.Adapters.ImageSourceAdapter;
+import com.lirans2341project.model.Item;
+import com.lirans2341project.services.DatabaseService;
+import com.lirans2341project.utils.ImageUtil;
 
-public class AddItemActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Map;
+
+public class AddFoodActivity extends AppCompatActivity implements View.OnClickListener {
+
+    /// tag for logging
+    private static final String TAG = "AddItemActivity";
+
+    private EditText itemNameEditText, itemPriceEditText;
+    private Button addItemButton;
+    private ImageView itemImageView;
+    private DatabaseService databaseService;
+
+    /// Activity result launcher for selecting image from gallery
+    private ActivityResultLauncher<Intent> selectImageLauncher;
+    /// Activity result launcher for capturing image from camera
+    private ActivityResultLauncher<Intent> captureImageLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_item2);
+        /// set the layout for the activity
+        setContentView(R.layout.activity_add_item);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        /// request permission for the camera and storage
+        ImageUtil.requestPermission(this);
+
+        /// get the instance of the database service
+        databaseService = DatabaseService.getInstance();
+
+        /// get the views
+        itemNameEditText = findViewById(R.id.item_name);
+        itemPriceEditText = findViewById(R.id.item_price);
+        addItemButton = findViewById(R.id.add_item_button);
+        itemImageView = findViewById(R.id.item_image);
+
+        /// set the tag for the image view
+        /// to check if the image was changed from app:srcCompat="@drawable/image"
+        itemImageView.setTag(R.drawable.image);
+
+        /// set the on click listeners
+        foodImageView.setOnClickListener(this);
+        addFoodButton.setOnClickListener(this);
+
+        /// register the activity result launcher for selecting image from gallery
+        selectImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri selectedImage = result.getData().getData();
+                        foodImageView.setImageURI(selectedImage);
+                        /// set the tag for the image view to null
+                        foodImageView.setTag(null);
+                    }
+                });
+
+        /// register the activity result launcher for capturing image from camera
+        captureImageLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
+                        foodImageView.setImageBitmap(bitmap);
+                        /// set the tag for the image view to null
+                        foodImageView.setTag(null);
+                    }
+                });
+
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == addFoodButton.getId()) {
+            Log.d(TAG, "Add food button clicked");
+            addFoodToDatabase();
+            return;
+        }
+        if (v.getId() == foodImageView.getId()) {
+            Log.d(TAG, "Select image button clicked");
+            showImageSourceDialog();
+            return;
+        }
+    }
+
+    /// show the dialog to select the image source
+    /// gallery or camera
+    /// @see AlertDialog
+    private void showImageSourceDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Image Source");
+
+        final ArrayList<Map.Entry<String, Integer>> options = new ArrayList<>();
+        options.add(Map.entry("Gallery", R.drawable.gallery_thumbnail));
+        options.add(Map.entry("Camera", R.drawable.photo_camera));
+
+        ImageSourceAdapter adapter = new ImageSourceAdapter(this, options);
+
+        builder.setAdapter(adapter, (DialogInterface dialog, int index) -> {
+            if (index == 0) {
+                selectImageFromGallery();
+            } else if (index == 1) {
+                captureImageFromCamera();
+            }
+        });
+
+        builder.show();
+    }
+
+    /// add the food to the database
+    /// @see Food
+    private void addFoodToDatabase() {
+        /// get the values from the input fields
+        String name = foodNameEditText.getText().toString();
+        String priceText = foodPriceEditText.getText().toString();
+
+
+        /// validate the input
+        /// stop if the input is not valid
+        if (!isValid(name, priceText, foodImageView)) return;
+
+        String imageBase64 = ImageUtil.convertTo64Base(foodImageView);
+        /// convert the price to double
+        double price = Double.parseDouble(priceText);
+
+        /// generate a new id for the food
+        String id = databaseService.generateFoodId();
+
+        Log.d(TAG, "Adding food to database");
+        Log.d(TAG, "ID: " + id);
+        Log.d(TAG, "Name: " + name);
+        Log.d(TAG, "Price: " + price);
+//        Log.d(TAG, "Image: " + imageBase64);
+
+        /// create a new food object
+        Food food = new Food(id, name, price, imageBase64);
+
+        /// save the food to the database and get the result in the callback
+        databaseService.createNewFood(food, new DatabaseService.DatabaseCallback<>() {
+            @Override
+            public void onCompleted(Void object) {
+                Log.d(TAG, "Food added successfully");
+                Toast.makeText(AddFoodActivity.this, "Food added successfully", Toast.LENGTH_SHORT).show();
+                /// clear the input fields after adding the food for the next food
+                Log.d(TAG, "Clearing input fields");
+                foodNameEditText.setText("");
+                foodPriceEditText.setText("");
+                foodImageView.setImageBitmap(null);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.e(TAG, "Failed to add food", e);
+                Toast.makeText(AddFoodActivity.this, "Failed to add food", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    /// select image from gallery
+    private void selectImageFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        selectImageLauncher.launch(intent);
+    }
+
+    /// capture image from camera
+    private void captureImageFromCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        captureImageLauncher.launch(takePictureIntent);
+    }
+
+
+    /// validate the input
+    private boolean isValid(String name, String priceText, ImageView foodImageView) {
+        if (name.isEmpty()) {
+            Log.e(TAG, "Name is empty");
+            foodNameEditText.setError("Name is required");
+            foodNameEditText.requestFocus();
+            return false;
+        }
+
+        if (priceText.isEmpty()) {
+            Log.e(TAG, "Price is empty");
+            foodPriceEditText.setError("Price is required");
+            foodPriceEditText.requestFocus();
+            return false;
+        }
+
+        // check if foodImageView was changed from app:srcCompat="@drawable/image"
+        if (foodImageView.getTag() != null) {
+            Log.e(TAG, "Image is required");
+            Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
 }

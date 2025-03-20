@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.lirans2341project.model.Item;
 import com.lirans2341project.model.User;
+import com.lirans2341project.screen.AdminActivity;
 import com.lirans2341project.services.AuthenticationService;
 import com.lirans2341project.services.DatabaseService;
 import com.lirans2341project.utils.ImageUtil;
@@ -195,7 +196,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener {
         if (itemid == R.id.menuGoAdminPage) {
             User user = SharedPreferencesUtil.getUser(this);
             if(user != null && user.isAdmin()){
-                Intent go = new Intent(AddItem.this, AdminPage.class);
+                Intent go = new Intent(AddItem.this, AdminActivity.class);
                 startActivity(go);
             }
             else{

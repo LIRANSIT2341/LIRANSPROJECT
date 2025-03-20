@@ -96,7 +96,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         @Override
                         public void onCompleted(User user) {
                             SharedPreferencesUtil.saveUser(getApplicationContext(), user);
-                            Intent go = new Intent(getApplicationContext(), HomePage.class);
+                            Intent go = new Intent(getApplicationContext(), MainAct.class);
                             startActivity(go);
                         }
 
