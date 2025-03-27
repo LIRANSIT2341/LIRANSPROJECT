@@ -36,6 +36,38 @@
             android:minHeight="48dp" />
 
         <EditText
+            android:id="@+id/item_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="Item Type"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/item_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="Item Size"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/item_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="Item Color"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+        <EditText
+            android:id="@+id/item_fabric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="Item Fabric"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+        <EditText
             android:id="@+id/item_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

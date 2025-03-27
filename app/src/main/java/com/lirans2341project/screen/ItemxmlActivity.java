@@ -29,7 +29,7 @@ public class ItemxmlActivity extends AppCompatActivity {
         tvItemColor = findViewById(R.id.tvItemColor);
         tvItemFabric = findViewById(R.id.tvItemFabric);
         tvItemPrice = findViewById(R.id.tvItemPrice);
-        tvItemStatus = findViewById(R.id.tvItemStatus);
+//        tvItemStatus = findViewById(R.id.tvItemStatus);
         btnAddToCart = findViewById(R.id.btnAddToCart);
 
         // הצגת המידע על המוצר
@@ -39,7 +39,6 @@ public class ItemxmlActivity extends AppCompatActivity {
         tvItemColor.setText(item.getColor());
         tvItemFabric.setText(item.getFabric());
         tvItemPrice.setText("מחיר: " + item.getPrice());
-        tvItemStatus.setText("סטטוס: " + item.getStatus());
 
         // כפתור הוספה לסל
         btnAddToCart.setOnClickListener(v -> {

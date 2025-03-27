@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-    Button btnlog;
+    Button btnlog,btnBack;
     EditText etemail, etpass;
     String email, pass;
     TextView tvError;
@@ -56,15 +56,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         databaseService = DatabaseService.getInstance();
         etemail = findViewById(R.id.etEmailLogin);
         etpass = findViewById(R.id.etPassLogin);
-
         tvError=findViewById(R.id.tvErrorLogIn);
-
-
-
-
-
         btnlog=(Button)findViewById(R.id.btnSignIn);
         btnlog.setOnClickListener(this);
+        btnBack=(Button)findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
+
     }
 
     @Override
@@ -74,6 +71,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Log.d("TAG", "onClick:btnSignIn");
 
         boolean isValid=true;
+        if(view == btnBack)
+        {
+            Intent intent=new Intent(getApplicationContext(),LandingActivity.class);
+            startActivity(intent);
+        }
         if (!email.contains("@")){
             etpass.setError("כתובת אימייל אינה תקינה");
             isValid = false;
@@ -96,7 +98,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         @Override
                         public void onCompleted(User user) {
                             SharedPreferencesUtil.saveUser(getApplicationContext(), user);
-                            Intent go = new Intent(getApplicationContext(), MainAct.class);
+                            Intent go = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(go);
                         }
 

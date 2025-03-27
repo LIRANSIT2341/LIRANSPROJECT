@@ -7,12 +7,14 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 
-    protected String id, name, type, size, color, fabric, pic, status;
-    protected Integer price;
-    User user;
+    protected String id, name, type, size, color, fabric, pic,  userId;
+    protected double price;
 
     // אתרי בנאי
-    public Item(String id, String name, String type, String size, String color, String fabric, String pic, Integer price, String userId, String status) {
+
+
+    public Item(String id, String name, String type, String size,
+                String color, String fabric, String pic, String userId, double price) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -20,43 +22,85 @@ public class Item implements Serializable {
         this.color = color;
         this.fabric = fabric;
         this.pic = pic;
+        this.userId = userId;
         this.price = price;
-        this.user = user;
-        this.status = status;
     }
 
     public Item() {}
 
     // הגדרת getters ו-setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getId() {
+        return id;
+    }
 
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getSize() { return size; }
-    public void setSize(String size) { this.size = size; }
+    public String getName() {
+        return name;
+    }
 
-    public String getColor() { return color; }
-    public void setColor(String color) { this.color = color; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getFabric() { return fabric; }
-    public void setFabric(String fabric) { this.fabric = fabric; }
+    public String getType() {
+        return type;
+    }
 
-    public String getPic() { return pic; }
-    public void setPic(String pic) { this.pic = pic; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-    public Integer getPrice() { return price; }
-    public void setPrice(Integer price) { this.price = price; }
+    public String getSize() {
+        return size;
+    }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    public void setSize(String size) {
+        this.size = size;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getFabric() {
+        return fabric;
+    }
+
+    public void setFabric(String fabric) {
+        this.fabric = fabric;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     @Override
     public String toString() {
@@ -68,11 +112,8 @@ public class Item implements Serializable {
                 ", color='" + color + '\'' +
                 ", fabric='" + fabric + '\'' +
                 ", pic='" + pic + '\'' +
+                ", userId='" + userId + '\'' +
                 ", price=" + price +
-                ", user=" + user +
-                ", status='" + status + '\'' +
                 '}';
     }
-
-
 }

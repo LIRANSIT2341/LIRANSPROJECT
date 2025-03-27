@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.lirans2341project.model.Item;
 import com.lirans2341project.model.User;
 import com.lirans2341project.screen.AdminActivity;
+import com.lirans2341project.screen.MainActivity;
 import com.lirans2341project.services.AuthenticationService;
 import com.lirans2341project.services.DatabaseService;
 import com.lirans2341project.utils.ImageUtil;
@@ -114,12 +115,12 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener {
             if (bitmap != null) {
                 String itemid= databaseService.generateItemId();
                 String base64IV = ImageUtil.convertTo64Base(iv);
-                Item newItem= new Item(itemid,itemName,type,size,color,fabric,base64IV,price, authenticationService.getCurrentUserId(), "");
+                Item newItem= new Item(itemid,itemName,type,size,color,fabric,base64IV, authenticationService.getCurrentUserId(), price);
 
                 databaseService.createNewItem(newItem, new DatabaseService.DatabaseCallback<Void>() {
                     @Override
                     public void onCompleted(Void object) {
-                        Intent go=new Intent(getApplicationContext(), AfterLogin.class);
+                        Intent go=new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(go);
                     }
 
@@ -177,22 +178,22 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener {
             Intent goadmin = new Intent(AddItem.this, AddItem.class);
             startActivity(goadmin);
         }
-        if (itemid == R.id.menuGoWishList) {
-            Intent goadmin = new Intent(AddItem.this, WishList.class);
-            startActivity(goadmin);
-        }
-        if (itemid == R.id.menuGoPersonal) {
-            Intent goadmin = new Intent(AddItem.this, UserProfile.class);
-            startActivity(goadmin);
-        }
-        if (itemid == R.id.menuGoAboutUs) {
-            Intent goadmin = new Intent(AddItem.this, AboutUs.class);
-            startActivity(goadmin);
-        }
-        if (itemid == R.id.menuGoAfterLogin) {
-            Intent goadmin = new Intent(AddItem.this, AfterLogin.class);
-            startActivity(goadmin);
-        }
+//        if (itemid == R.id.menuGoWishList) {
+//            Intent goadmin = new Intent(AddItem.this, WishList.class);
+//            startActivity(goadmin);
+//        }
+//        if (itemid == R.id.menuGoPersonal) {
+//            Intent goadmin = new Intent(AddItem.this, UserProfile.class);
+//            startActivity(goadmin);
+//        }
+//        if (itemid == R.id.menuGoAboutUs) {
+//            Intent goadmin = new Intent(AddItem.this, AboutUs.class);
+//            startActivity(goadmin);
+//        }
+//        if (itemid == R.id.menuGoAfterLogin) {
+//            Intent goadmin = new Intent(AddItem.this, Main.class);
+//            startActivity(goadmin);
+//        }
         if (itemid == R.id.menuGoAdminPage) {
             User user = SharedPreferencesUtil.getUser(this);
             if(user != null && user.isAdmin()){

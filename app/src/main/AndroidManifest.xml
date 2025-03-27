@@ -13,9 +13,6 @@
         android:theme="@style/Theme.Lirans2341Project"
         tools:targetApi="31">
         <activity
-            android:name=".screen.LandingActivity"
-            android:exported="false" />
-        <activity
             android:name=".screen.UserListActivity"
             android:exported="false" />
         <activity
@@ -25,10 +22,7 @@
             android:name=".screen.MyCarts"
             android:exported="false" />
         <activity
-            android:name=".screen.MainAct"
-            android:exported="false" />
-        <activity
-            android:name=".screen.MainActivity"
+            android:name=".screen.LandingActivity"
             android:exported="false" />
         <activity
             android:name=".screen.AdminActivity"
@@ -46,58 +40,7 @@
             android:name=".SearchItem"
             android:exported="false" />
         <activity
-            android:name=".ItemRow"
-            android:exported="false" />
-        <activity
-            android:name=".DonationRow"
-            android:exported="false" />
-        <activity
-            android:name=".WishList"
-            android:exported="false" />
-        <activity
-            android:name=".UserProfile"
-            android:exported="false" />
-        <activity
-            android:name=".SerchPage"
-            android:exported="false" />
-        <activity
-            android:name=".MyItems"
-            android:exported="false" />
-        <activity
-            android:name=".MyIncomeCalls"
-            android:exported="false" />
-        <activity
-            android:name=".DonationPage"
-            android:exported="false" />
-        <activity
-            android:name=".ChangeUser"
-            android:exported="false" />
-        <activity
-            android:name=".AfterLogin"
-            android:exported="false" />
-        <activity
-            android:name=".AdminPage"
-            android:exported="false" />
-        <activity
-            android:name=".DonationPlaceProfile"
-            android:exported="false" />
-        <activity
-            android:name=".AboutUs"
-            android:exported="false" />
-        <activity
-            android:name=".activity_add_item"
-            android:exported="false" />
-        <activity
-            android:name=".add_food"
-            android:exported="false" />
-        <activity
-            android:name=".screen.AddNewItem"
-            android:exported="false" />
-        <activity
-            android:name=".ItemSearchActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screen.ItemxmlActivity"
+            android:name=".screen.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -105,9 +48,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".screen.HomePage"
-            android:exported="false" />
         <activity
             android:name=".screen.Login"
             android:exported="true" />

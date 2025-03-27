@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.lirans2341project.screen.AdminActivity;
 
 import java.util.ArrayList;
 
@@ -90,10 +91,10 @@ public class SearchItem extends AppCompatActivity implements AdapterView.OnItemS
         adap1 = new ItemsAdapter(new ItemsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Item item) {
-                Intent go= new Intent(SearchItem.this, ItemProfile.class);
-
-                go.putExtra("data",item);
-                startActivity(go);
+//                Intent go= new Intent(SearchItem.this, ItemProfile.class);
+//
+//                go.putExtra("data",item);
+//                startActivity(go);
             }
         });
         lvSearch1.setAdapter(adap1);
@@ -264,22 +265,22 @@ public class SearchItem extends AppCompatActivity implements AdapterView.OnItemS
             Intent goadmin = new Intent(SearchItem.this, AddItem.class);
             startActivity(goadmin);
         }
-        if (itemid == R.id.menuGoPersonal) {
-            Intent goadmin = new Intent(SearchItem.this, UserProfile.class);
-            startActivity(goadmin);
-        }
-        if (itemid == R.id.menuGoAboutUs) {
-            Intent goadmin = new Intent(SearchItem.this, AboutUs.class);
-            startActivity(goadmin);
-        }
-        if (itemid == R.id.menuGoAfterLogin) {
-            Intent goadmin = new Intent(SearchItem.this, AfterLogin.class);
-            startActivity(goadmin);
-        }
+//        if (itemid == R.id.menuGoPersonal) {
+//            Intent goadmin = new Intent(SearchItem.this, UserProfile.class);
+//            startActivity(goadmin);
+//        }
+//        if (itemid == R.id.menuGoAboutUs) {
+//            Intent goadmin = new Intent(SearchItem.this, AboutUs.class);
+//            startActivity(goadmin);
+//        }
+//        if (itemid == R.id.menuGoAfterLogin) {
+//            Intent goadmin = new Intent(SearchItem.this, Main.class);
+//            startActivity(goadmin);
+//        }
         if (itemid == R.id.menuGoAdminPage) {
             String admin = "edenkario@gmail.com";
             if(FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(admin)){
-                Intent go = new Intent(SearchItem.this, AdminPage.class);
+                Intent go = new Intent(SearchItem.this, AdminActivity.class);
                 startActivity(go);
             }
             else{
