@@ -113,6 +113,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+
         if (v.getId() == addItemButton.getId()) {
             Log.d(TAG, "Add item button clicked");
             addItemToDatabase();

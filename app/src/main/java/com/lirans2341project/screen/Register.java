@@ -25,7 +25,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     TextView tvReg;
     EditText etFName, etLName, etPhone, etEmail, etPass,  etAddress;
-    Button btnReg;
+    Button btnReg,btnBack;
     String fName,lName, phone, email, pass;
 
     AuthenticationService authenticationService;
@@ -57,7 +57,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etEmail=findViewById(R.id.etEmail);
         etPass=findViewById(R.id.etPass);
 
-
+        btnBack=(Button)findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
         btnReg.setOnClickListener(this);
     }
 
@@ -72,12 +73,20 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
 
 
+
+
         //check if registration is valid
         Boolean isValid=true;
+        if(view == btnBack)
+        {
+            Intent intent=new Intent(getApplicationContext(),LandingActivity.class);
+            startActivity(intent);
+        }
         if (fName.length()<2){
             Toast.makeText(Register.this,"שם פרטי קצר מדי", Toast.LENGTH_LONG).show();
             isValid = false;
         }
+
         if (lName.length()<2){
             Toast.makeText(Register.this,"שם משפחה קצר מדי", Toast.LENGTH_LONG).show();
             isValid = false;
