@@ -19,7 +19,7 @@
             android:name=".screen.UserProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".screen.MyCarts"
+            android:name=".screen.MyCartsActivity"
             android:exported="false" />
         <activity
             android:name=".screen.LandingActivity"

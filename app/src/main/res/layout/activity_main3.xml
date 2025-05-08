@@ -42,7 +42,7 @@
             android:id="@+id/btn_main_add_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Food" />
+            android:text="Add Item" />
 
         <Button
             android:id="@+id/btn_main_add_cart"

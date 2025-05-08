@@ -118,6 +118,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             addItemToDatabase();
             return;
         }
+
         if (v.getId() == itemImageView.getId()) {
             Log.d(TAG, "Select image button clicked");
             showImageSourceDialog();
