@@ -105,25 +105,12 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
                         Bitmap bitmap = (Bitmap) result.getData().getExtras().get("data");
                         itemImageView.setImageBitmap(bitmap);
                         /// set the tag for the image view to null
-                        itemImageView.setTag(null);
+//                        itemImageView.set
                     }
-                });
+                }
+        );
 
-    }
 
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == addItemButton.getId()) {
-            Log.d(TAG, "Add item button clicked");
-            addItemToDatabase();
-            return;
-        }
-        if (v.getId() == itemImageView.getId()) {
-            Log.d(TAG, "Select image button clicked");
-            showImageSourceDialog();
-            return;
-        }
     }
 
     /// show the dialog to select the image source
@@ -249,4 +236,18 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == addItemButton.getId()) {
+            Log.d(TAG, "Add item button clicked");
+            addItemToDatabase();
+            return;
+        }
+
+        if (v.getId() == itemImageView.getId()) {
+            Log.d(TAG, "Select image button clicked");
+            showImageSourceDialog();
+            return;
+        }
+    }
 }

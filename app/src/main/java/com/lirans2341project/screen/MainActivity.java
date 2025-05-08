@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v.getId() == btnMyCarts.getId()) {
             Log.d(TAG, "My carts button clicked");
-            Intent myCartsIntent = new Intent(MainActivity.this, MyCarts.class);
+            Intent myCartsIntent = new Intent(MainActivity.this, MyCartsActivity.class);
             startActivity(myCartsIntent);
             return;
         }

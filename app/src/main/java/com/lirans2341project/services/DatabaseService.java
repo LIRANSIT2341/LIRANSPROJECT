@@ -13,7 +13,9 @@ import com.lirans2341project.model.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /// a service to interact with the Firebase Realtime Database.
@@ -177,6 +179,9 @@ public class DatabaseService {
     public void getUser(@NotNull final String uid, @NotNull final DatabaseCallback<User> callback) {
         getData("Users/" + uid, User.class, callback);
     }
+    public void getCart(@NotNull final String cartId, @NotNull final DatabaseCallback<Cart> callback) {
+        getData("carts/" + cartId, Cart.class, callback);
+    }
 
     public void getItem(@NotNull final String id, @NotNull final DatabaseCallback<Item> callback) {
         getData("items/" + id, Item.class, callback);
@@ -185,7 +190,27 @@ public class DatabaseService {
     public void getItemList(@NotNull final DatabaseCallback<List<Item>> callback){
         getDataList("items", Item.class, callback);
     }
+    
+    public void getUserCartList(@NotNull String uid, @NotNull final DatabaseCallback<List<Cart>> callback) {
+        getDataList("carts", Cart.class, new DatabaseCallback<List<Cart>>() {
+            @Override
+            public void onCompleted(List<Cart> cartList) {
+                List<Cart> _cartList = new ArrayList<>();
+                for (Cart cart : cartList) {
+                    if (cart.getUid().equals(uid)) {
+                        _cartList.add(cart);
+                    }
+                }
+                callback.onCompleted(_cartList);
+            }
+            
 
+            @Override
+            public void onFailed(Exception e) {
+                callback.onFailed(e);
+            }
+        });
+    }
 
     public String generateItemId() {
         return generateNewId("items");
