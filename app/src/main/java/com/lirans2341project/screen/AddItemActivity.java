@@ -106,6 +106,7 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
                         itemImageView.setImageBitmap(bitmap);
                         /// set the tag for the image view to null
 //                        itemImageView.set
+                        itemImageView.setTag(null);
                     }
                 }
         );
