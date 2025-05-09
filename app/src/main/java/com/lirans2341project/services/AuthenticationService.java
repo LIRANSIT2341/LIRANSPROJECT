@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.jetbrains.annotations.NotNull;
 
 
+
 /// a service to interact with the Firebase Authentication.
 /// this class is a singleton, use getInstance() to get an instance of this class
 /// @see FirebaseAuth
@@ -27,50 +28,7 @@ public class AuthenticationService {
         /// called when the operation fails with an exception
         void onFailed(Exception e);
     }
-//    public static class Admin {
-//        com.google.admin_firebase.auth.FirebaseAuth adminAuth;
-//        private static Admin instance;
-//        private Admin(Context context) {
-//            try {
-//                /// for creating the firebase_admin_sdk.json file, follow the instructions here:
-//                /// 1. Go to the Firebase Console
-//                /// 2. Go to Project Settings
-//                /// 3. Go to Service Accounts
-//                /// 4. Click on Generate New Private Key
-//                /// 5. Save the file as firebase_admin_sdk.json in the app/src/main/res/raw folder
-//                /// DON'T FORGET TO ADD THE FILE TO .gitignore file to avoid committing it to the repository
-//                /// add the following line to the .gitignore file:
-//                /// app/src/main/res/raw/firebase_admin_sdk.json
-//                /// 6. Add the code to the your build.gradle file to create the library dependency for the Firebase Admin SDK
-//                /// NOTE: you need to have the Firebase Admin SDK in your project to use this code
-//                /// see `shadow` task in the build.gradle file to see how to include the Firebase Admin SDK in the build
-//                InputStream serviceAccount =
-//                        context.getResources().openRawResource(R.raw.firebase_admin_sdk);
-//                com.google.admin_firebase.FirebaseOptions options = null;
-//                options = new com.google.admin_firebase.FirebaseOptions.Builder()
-//                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-//                        .setDatabaseUrl("https://gilyerm-test-app-default-rtdb.firebaseio.com")
-//                        .build();
-//                com.google.admin_firebase.FirebaseApp.initializeApp(options);
-//                adminAuth = com.google.admin_firebase.auth.FirebaseAuth.getInstance();
-//                Log.d(TAG, "Admin initialized");
-//            } catch (Resources.NotFoundException e) {
-//                Log.e(TAG, "Error getting resource", e);
-//                throw new RuntimeException(e);
-//            }
-//            catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
-//        public static Admin getInstance(Context context) {
-//            if (instance == null) {
-//                instance = new Admin(context);
-//            }
-//            return instance;
-//        }
-    /// the instance of this class
-    /// @see #getInstance()
+
     private static AuthenticationService instance;
 
     /// the reference to the authentication

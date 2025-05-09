@@ -29,7 +29,7 @@ public class AdminActivity extends AppCompatActivity {
 
         btnToUsers = findViewById(R.id.btn_admin_to_users);
         btnToUsers.setOnClickListener(v -> {
-            Intent intent = new Intent(this, UserListActivity.class);
+            Intent intent = new Intent(this, UsersListActivity.class);
             startActivity(intent);
         });
     }

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lirans2341project.R;
 import com.lirans2341project.Adapters.UserAdapter;
 import com.lirans2341project.model.User;
-import com.lirans2341project.services.AuthenticationService;
 import com.lirans2341project.services.DatabaseService;
 import com.lirans2341project.utils.SharedPreferencesUtil;
 
@@ -29,7 +27,6 @@ public class UsersListActivity extends AppCompatActivity {
     private RecyclerView usersList;
     private UserAdapter userAdapter;
     private DatabaseService databaseService;
-    private AuthenticationService.Admin adminService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +40,6 @@ public class UsersListActivity extends AppCompatActivity {
         });
 
         databaseService = DatabaseService.getInstance();
-        adminService = AuthenticationService.Admin.getInstance(this);
 
         usersList = findViewById(R.id.rv_users_list);
         usersList.setLayoutManager(new LinearLayoutManager(this));
@@ -70,7 +66,7 @@ public class UsersListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        databaseService.getUserList(new DatabaseService.DatabaseCallback<>() {
+        databaseService.getUserList(new DatabaseService.DatabaseCallback<List<User>>() {
             @Override
             public void onCompleted(List<User> users) {
                 userAdapter.setUserList(users);
@@ -91,39 +87,12 @@ public class UsersListActivity extends AppCompatActivity {
             Toast.makeText(this, "Cannot delete current user", Toast.LENGTH_SHORT).show();
             return;
         }
-        new AlertDialog.Builder(this)
-                .setTitle("Delete User")
-                .setMessage("Are you sure you want to delete this user?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteUser(user))
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
-
-    private void deleteUser(User user) {
-        adminService.deleteUser(user.getId(),
-                new AuthenticationService.AuthCallback() {
-                    @Override
-                    public void onCompleted(String uid) {
-                        databaseService.deleteUser(uid, new DatabaseService.DatabaseCallback<>() {
-                            @Override
-                            public void onCompleted(Void aVoid) {
-                                Log.d(TAG, "User deleted: " + user);
-                                userAdapter.removeUser(user);
-                            }
-
-                            @Override
-                            public void onFailed(Exception e) {
-                                Log.e(TAG, "Failed to delete user: " + user, e);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFailed(Exception e) {
-                        Log.e(TAG, "Failed to delete user: " + user, e);
-                    }
-                });
+//        new AlertDialog.Builder(this)
+//                .setTitle("Delete User")
+//                .setMessage("Are you sure you want to delete this user?")
+//                .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteUser(user))
+//                .setNegativeButton(android.R.string.no, null)
+//                .setIcon(android.R.drawable.ic_dialog_alert)
+//                .show();
     }
 }
