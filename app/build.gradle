@@ -1,8 +1,8 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+//    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 
@@ -86,21 +86,21 @@ dependencies {
 }
 
 
-//////////////////////////////
-// Shadow Jar Configuration //
-//////////////////////////////
-
-// Register ShadowJar tasks for creating a shadow jar with the Firebase Admin SDK
-tasks.register("shadow", ShadowJar) {
-    group = "shadow" // This makes it show under a "shadow" group in Gradle tasks
-    description = "Create a shadow jar"
-    archiveBaseName.set("firebase-admin-shaded")
-    configurations = [project.configurations.firebaseAdmin]
-
-    relocate 'com.google.firebase', 'com.google.admin_firebase'
-    relocate 'com.google.common.util.concurrent', 'shadow.com.google.common.util.concurrent'
-
-    exclude 'META-INF/*.SF'
-    exclude 'META-INF/*.DSA'
-    exclude 'META-INF/*.RSA'
-}
+////////////////////////////////
+//// Shadow Jar Configuration //
+////////////////////////////////
+//
+//// Register ShadowJar tasks for creating a shadow jar with the Firebase Admin SDK
+//tasks.register("shadow", ShadowJar) {
+//    group = "shadow" // This makes it show under a "shadow" group in Gradle tasks
+//    description = "Create a shadow jar"
+//    archiveBaseName.set("firebase-admin-shaded")
+//    configurations = [project.configurations.firebaseAdmin]
+//
+//    relocate 'com.google.firebase', 'com.google.admin_firebase'
+//    relocate 'com.google.common.util.concurrent', 'shadow.com.google.common.util.concurrent'
+//
+//    exclude 'META-INF/*.SF'
+//    exclude 'META-INF/*.DSA'
+//    exclude 'META-INF/*.RSA'
+//}
