@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = "MainActivity";
     private AuthenticationService authenticationService;
-    private Button btnLogout, btnAddItem, btnAddCart, btnToAdmin, btnUserProfile, btnMyCarts;
+    private Button btnLogout, btnAddItem, btnAddCart, btnToAdmin, btnUserProfile, btnMyCarts, btnGoToMyShop;
 
     /// the current user instance
     /// NOTE:
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnMyCarts = findViewById(R.id.btn_main_my_carts);
         btnToAdmin = findViewById(R.id.btn_main_to_admin);
         btnUserProfile = findViewById(R.id.btn_main_edit_profile);
-
+        btnGoToMyShop = findViewById(R.id.btnGoToMyShop); // הוספתי את הכפתור כאן
 
         /// set the click listeners
         btnLogout.setOnClickListener(this);
@@ -75,6 +75,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnMyCarts.setOnClickListener(this);
         btnToAdmin.setOnClickListener(this);
         btnUserProfile.setOnClickListener(this);
+
+        // הוספת הלחיצה על כפתור "Go to My Shop"
+        btnGoToMyShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Go to My Shop button clicked");
+                Intent goToMyShopIntent = new Intent(MainActivity.this, MyShopActivity.class);
+                startActivity(goToMyShopIntent);
+            }
+        });
 
         if (user != null && user.isAdmin()) {
             btnToAdmin.setVisibility(View.VISIBLE);

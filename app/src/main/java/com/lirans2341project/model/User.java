@@ -1,16 +1,13 @@
 package com.lirans2341project.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class User {
     String id, fname, lname, phone, email, password;
-    boolean isAdmin;
+    boolean isAdmin,isDeleted;
 
     public User() {
     }
 
-    public User(String id, String fname, String lname, String phone, String email, String password, boolean isAdmin) {
+    public User(String id, String fname, String lname, String phone, String email, String password, boolean isAdmin, boolean isDeleted) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
@@ -18,6 +15,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.isDeleted = isDeleted;
     }
 
 
@@ -76,6 +74,13 @@ public class User {
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
 
     @Override
     public String toString() {
@@ -86,7 +91,8 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", isAdmin=" + isAdmin +
+                ", isAdmin=" + isAdmin + '\''+
+                ", isDeleted='" + isDeleted +
                 '}';
     }
 }

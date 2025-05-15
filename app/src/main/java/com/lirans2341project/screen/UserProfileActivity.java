@@ -24,7 +24,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     private static final String TAG = "UserProfileActivity";
 
     private EditText etUserFirstName, etUserLastName, etUserEmail, etUserPhone, etUserPassword;
-    private Button btnUpdateProfile;
+    private Button btnUpdateProfile , btnDeleteProfile;
     private DatabaseService databaseService;
     //private AuthenticationService.Admin adminService;
     String selectedUid;
@@ -68,7 +68,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         etUserPhone = findViewById(R.id.et_user_phone);
         etUserPassword = findViewById(R.id.et_user_password);
         btnUpdateProfile = findViewById(R.id.btn_edit_profile);
+        btnDeleteProfile=findViewById(R.id.btn_delete_profile);
 
+        btnDeleteProfile.setOnClickListener(this);
         btnUpdateProfile.setOnClickListener(this);
 
         showUserProfile();
@@ -80,6 +82,30 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             updateUserProfile();
             return;
         }
+        if(v.getId() == R.id.btn_delete_profile) {
+            setUserAsDeleted();
+            return;
+        }
+    }
+
+    private void setUserAsDeleted() {
+        if (selectedUser == null) {
+            return;
+        }
+
+        selectedUser.setDeleted(true);
+        databaseService.createNewUser(selectedUser, new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void object) {
+                Toast.makeText(UserProfileActivity.this, "yayyyyyy", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
     }
 
     private void showUserProfile() {
@@ -129,38 +155,21 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         selectedUser.setEmail(email);
         selectedUser.setPassword(password);
 
-        // Update the user data in the authentication
-//        Log.d(TAG, "Updating user profile");
-//       // adminService.updateUser(selectedUser, new AuthenticationService.AuthCallback() {
-//            @Override
-//            public void onCompleted(String uId) {
-//                // Update the user data in the database
-//                Log.d(TAG, "User profile updated in authentication");
-//                Log.d(TAG, "Updating user profile in database");
-//                databaseService.createNewUser(selectedUser, new DatabaseService.DatabaseCallback<>() {
-//                    @Override
-//                    public void onCompleted(Void object) {
-//                        Log.d(TAG, "Profile updated successfully");
-//                        // Save the updated user data to shared preferences
-//                        if (isCurrentUser)
-//                            SharedPreferencesUtil.saveUser(getApplicationContext(), selectedUser);
-//                        Toast.makeText(UserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onFailed(Exception e) {
-//                        Log.e(TAG, "Error updating profile", e);
-//                        Toast.makeText(UserProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//
-//            @Override
-//           public void onFailed(Exception e) {
-//                Log.e(TAG, "Error updating profile", e);
-//                Toast.makeText(UserProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        databaseService.createNewUser(selectedUser, new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void object) {
+                if (isCurrentUser)
+                    SharedPreferencesUtil.saveUser(getApplicationContext(), selectedUser);
+                Toast.makeText(UserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.e(TAG, "Error updating profile", e);
+                Toast.makeText(UserProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private boolean isValid(String firstName, String lastName, String phone, String email, String password) {

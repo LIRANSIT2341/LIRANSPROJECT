@@ -206,17 +206,27 @@ public class DatabaseService {
         getData("carts/" + cartId, Cart.class, callback);
     }
 
+
     public void getItem(@NotNull final String id, @NotNull final DatabaseCallback<Item> callback) {
         getData("items/" + id, Item.class, callback);
     }
     public void getUserList(@NotNull final DatabaseCallback<List<User>> callback) {
-        getDataList("users", User.class, new HashMap<>(), callback);
+        getDataList("Users", User.class, new HashMap<>(), callback);
     }
 
+    public void deleteItem(@NotNull final String itemId, @Nullable final DatabaseCallback<Void> callback) {
+        databaseReference.child("items").child(itemId).removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (callback != null) callback.onCompleted(null);
+            } else {
+                if (callback != null) callback.onFailed(task.getException());
+            }
+        });
+    }
     public void getItemList(@NotNull final DatabaseCallback<List<Item>> callback){
         getDataList("items", Item.class, callback);
     }
-    
+
     public void getUserCartList(@NotNull String uid, @NotNull final DatabaseCallback<List<Cart>> callback) {
         getDataList("carts", Cart.class, new DatabaseCallback<List<Cart>>() {
             @Override
@@ -229,7 +239,7 @@ public class DatabaseService {
                 }
                 callback.onCompleted(_cartList);
             }
-            
+
 
             @Override
             public void onFailed(Exception e) {
@@ -248,5 +258,4 @@ public class DatabaseService {
     public void createNewCart(@NotNull final Cart cart, @Nullable final DatabaseCallback<Void> callback) {
         writeData("carts/" + cart.getId(), cart, callback);
     }
-
 }

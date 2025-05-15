@@ -69,6 +69,7 @@ public class UsersListActivity extends AppCompatActivity {
         databaseService.getUserList(new DatabaseService.DatabaseCallback<List<User>>() {
             @Override
             public void onCompleted(List<User> users) {
+                users.removeIf(user -> user.isDeleted());
                 userAdapter.setUserList(users);
             }
 
@@ -87,12 +88,5 @@ public class UsersListActivity extends AppCompatActivity {
             Toast.makeText(this, "Cannot delete current user", Toast.LENGTH_SHORT).show();
             return;
         }
-//        new AlertDialog.Builder(this)
-//                .setTitle("Delete User")
-//                .setMessage("Are you sure you want to delete this user?")
-//                .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteUser(user))
-//                .setNegativeButton(android.R.string.no, null)
-//                .setIcon(android.R.drawable.ic_dialog_alert)
-//                .show();
     }
 }

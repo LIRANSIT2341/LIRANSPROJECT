@@ -1,6 +1,13 @@
 package com.lirans2341project.screen;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,23 +15,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import android.content.Intent;
-
 import com.lirans2341project.R;
 import com.lirans2341project.model.User;
 import com.lirans2341project.services.AuthenticationService;
 import com.lirans2341project.services.DatabaseService;
 import com.lirans2341project.utils.SharedPreferencesUtil;
-
-
-import androidx.annotation.NonNull;
-
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
     Button btnlog,btnBack;
@@ -97,6 +92,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
                         @Override
                         public void onCompleted(User user) {
+                            if (user.isDeleted()) {
+                                authenticationService.signOut();
+                                Toast.makeText(Login.this, "User was deleted", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                             SharedPreferencesUtil.saveUser(getApplicationContext(), user);
                             Intent go = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(go);
