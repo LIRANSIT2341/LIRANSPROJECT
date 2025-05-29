@@ -99,6 +99,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             }
                             SharedPreferencesUtil.saveUser(getApplicationContext(), user);
                             Intent go = new Intent(getApplicationContext(), MainActivity.class);
+                            go.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(go);
                         }
 

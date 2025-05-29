@@ -1,78 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    >
-
+    android:layoutDirection="rtl">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ProgressBar
-            android:id="@+id/item_details_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <ImageView
-            android:id="@+id/iv_item_image"
+            android:id="@+id/item_image"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:scaleType="centerCrop"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/image_border" />
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textAlignment="viewStart"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/item_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@android:color/holo_green_dark"
+            android:textAlignment="viewStart"
             android:layout_marginBottom="16dp" />
 
-        <TextView
-            android:id="@+id/tv_item_name"
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
 
-        <TextView
-            android:id="@+id/tv_item_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Type" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tv_item_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Size" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="פרטי המוצר"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="12dp" />
 
-        <TextView
-            android:id="@+id/tv_item_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Color" />
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="5"
+                    android:alignmentMode="alignBounds">
 
-        <TextView
-            android:id="@+id/tv_item_fabric"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fabric" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="סוג:"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp" />
 
-        <TextView
-            android:id="@+id/tv_item_price"
-            android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/item_type"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="מידה:"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/item_size"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="צבע:"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/item_color"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="בד:"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:id="@+id/item_fabric"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="סטטוס:"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp" />
+
+                    <TextView
+                        android:id="@+id/item_status"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1" />
+                </GridLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="₪ Price"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/holo_green_dark" />
-        <Button
-            android:id="@+id/btn_delete_item"
-            android:layout_width="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="פרטי המוכר"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/seller_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textAlignment="viewStart"
+                    android:layout_marginBottom="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/contact_seller_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="יצירת קשר עם המוכר"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:icon="@drawable/ic_baseline_email_24"
+                    app:iconGravity="start" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delete Item"
-            android:layout_marginTop="16dp"
-            android:layout_centerHorizontal="true" />
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_to_cart_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="הוספה לסל"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_baseline_shopping_cart_24"
+                app:iconGravity="start"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buy_now_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="רכישה מיידית"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                app:icon="@drawable/ic_baseline_payment_24"
+                app:iconGravity="start" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

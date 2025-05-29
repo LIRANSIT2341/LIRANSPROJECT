@@ -20,13 +20,14 @@ import com.lirans2341project.model.User;
 import com.lirans2341project.services.AuthenticationService;
 import com.lirans2341project.services.DatabaseService;
 import com.lirans2341project.utils.SharedPreferencesUtil;
+import com.lirans2341project.utils.Validator;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvReg;
-    EditText etFName, etLName, etPhone, etEmail, etPass,  etAddress;
-    Button btnReg,btnBack;
-    String fName,lName, phone, email, pass;
+    EditText etFName, etLName, etPhone, etEmail, etPass, etAddress;
+    Button btnReg, btnBack;
+    String fName, lName, phone, email, pass;
 
     AuthenticationService authenticationService;
     DatabaseService databaseService;
@@ -49,15 +50,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         init_views();
     }
 
-    private void init_views(){
-        btnReg=findViewById(R.id.btnReg);
-        etFName=findViewById(R.id.etFName);
-        etLName=findViewById(R.id.etLName);
-        etPhone=findViewById(R.id.etPhone);
-        etEmail=findViewById(R.id.etEmail);
-        etPass=findViewById(R.id.etPass);
+    private void init_views() {
+        btnReg = findViewById(R.id.btnReg);
+        etFName = findViewById(R.id.etFName);
+        etLName = findViewById(R.id.etLName);
+        etPhone = findViewById(R.id.etPhone);
+        etEmail = findViewById(R.id.etEmail);
+        etPass = findViewById(R.id.etPass);
 
-        btnBack=(Button)findViewById(R.id.btnBack);
+        btnBack = (Button) findViewById(R.id.btnBack);
         btnBack.setOnClickListener(this);
         btnReg.setOnClickListener(this);
     }
@@ -65,87 +66,90 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        fName=etFName.getText().toString();
-        lName=etLName.getText().toString();
-        phone=etPhone.getText().toString();
-        email=etEmail.getText().toString();
-        pass=etPass.getText().toString();
-
-
-
+        fName = etFName.getText().toString();
+        lName = etLName.getText().toString();
+        phone = etPhone.getText().toString();
+        email = etEmail.getText().toString();
+        pass = etPass.getText().toString();
 
 
         //check if registration is valid
-        Boolean isValid=true;
-        if(view == btnBack)
-        {
-            Intent intent=new Intent(getApplicationContext(),LandingActivity.class);
-            startActivity(intent);
-        }
-        if (fName.length()<2){
-            Toast.makeText(Register.this,"שם פרטי קצר מדי", Toast.LENGTH_LONG).show();
-            isValid = false;
+
+        if (!isValid()) {
+            return;
         }
 
-        if (lName.length()<2){
-            Toast.makeText(Register.this,"שם משפחה קצר מדי", Toast.LENGTH_LONG).show();
-            isValid = false;
+        authenticationService.signUp(email, pass, new AuthenticationService.AuthCallback<String>() {
+            @Override
+            public void onCompleted(String uid) {
+                // Sign in success, update UI with the signed-in user's information
+                Log.d("TAG", "createUserWithEmail:success");
+                User newUser = new User(uid, fName, lName, phone, email, pass, false, false);
+                databaseService.createNewUser(newUser, new DatabaseService.DatabaseCallback<Void>() {
+                    @Override
+                    public void onCompleted(Void object) {
+                        SharedPreferencesUtil.saveUser(getApplicationContext(), newUser);
+                        Intent goLog = new Intent(getApplicationContext(), MainActivity.class);
+                        goLog.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(goLog);
+                    }
+
+                    @Override
+                    public void onFailed(Exception e) {
+                        // If sign in fails, display a message to the user.
+                        Log.w("TAG", "createUserWithEmail:failure", e);
+                        Toast.makeText(Register.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        authenticationService.signOut();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                // If sign in fails, display a message to the user.
+                Log.w("TAG", "createUserWithEmail:failure", e);
+                Toast.makeText(Register.this, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    private boolean isValid() {
+        fName = etFName.getText().toString();
+        lName = etLName.getText().toString();
+        phone = etPhone.getText().toString();
+        email = etEmail.getText().toString();
+        pass = etPass.getText().toString();
+
+        if (!Validator.isNameValid(fName)) {
+            etFName.setError("שם פרטי קצר מדי");
+            etFName.requestFocus();
+            return false;
         }
-        if (phone.length()<9||phone.length()>10){
-            Toast.makeText(Register.this,"מספר הטלפון לא תקין", Toast.LENGTH_LONG).show();
-            isValid = false;
+        if (!Validator.isNameValid(lName)) {
+            etLName.setError("שם משפחה קצר מדי");
+            etLName.requestFocus();
+            return false;
+        }
+        if (!Validator.isPhoneValid(phone)) {
+            Toast.makeText(Register.this, "מספר הטלפון לא תקין", Toast.LENGTH_LONG).show();
+            etPhone.requestFocus();
+            return false;
         }
 
-        if (!email.contains("@")){
-            Toast.makeText(Register.this,"כתובת האימייל לא תקינה", Toast.LENGTH_LONG).show();
-            isValid = false;
+        if (!Validator.isEmailValid(email)) {
+            etEmail.setError("כתובת האימייל לא תקינה");
+            etEmail.requestFocus();
+            return false;
         }
-        if(pass.length()<6){
-            Toast.makeText(Register.this,"הסיסמה קצרה מדי", Toast.LENGTH_LONG).show();
-            isValid = false;
+        if (!Validator.isPasswordValid(pass)) {
+            etPass.setError("הסיסמה לא תקין");
+            etPass.requestFocus();
+            return false;
         }
-        if(pass.length()>20){
-            Toast.makeText(Register.this,"הסיסמה ארוכה מדי", Toast.LENGTH_LONG).show();
-            isValid = false;
-        }
-
-        if (isValid){
-
-            authenticationService.signUp(email, pass, new AuthenticationService.AuthCallback<String>() {
-                @Override
-                public void onCompleted(String uid) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d("TAG", "createUserWithEmail:success");
-                    User newUser=new User(uid, fName, lName, phone, email, pass, false, false);
-                    databaseService.createNewUser(newUser, new DatabaseService.DatabaseCallback<Void>() {
-                        @Override
-                        public void onCompleted(Void object) {
-                            SharedPreferencesUtil.saveUser(getApplicationContext(), newUser);
-                            Intent goLog=new Intent(getApplicationContext(), Login.class);
-                            startActivity(goLog);
-                        }
-
-                        @Override
-                        public void onFailed(Exception e) {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", e);
-                            Toast.makeText(Register.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            authenticationService.signOut();
-                        }
-                    });
-                }
-
-                @Override
-                public void onFailed(Exception e) {
-                    // If sign in fails, display a message to the user.
-                    Log.w("TAG", "createUserWithEmail:failure", e);
-                    Toast.makeText(Register.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
-
+        return true;
     }
 }

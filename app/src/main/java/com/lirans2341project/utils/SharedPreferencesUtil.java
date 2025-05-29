@@ -3,7 +3,14 @@ package com.lirans2341project.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.lirans2341project.model.Cart;
+import com.lirans2341project.model.Item;
 import com.lirans2341project.model.User;
+import com.lirans2341project.services.AuthenticationService;
+import com.lirans2341project.services.DatabaseService;
+
+import java.util.ArrayList;
 
 
 /// Utility class for shared preferences operations
@@ -151,6 +158,8 @@ public class SharedPreferencesUtil {
         editor.remove("isAdmin");
         editor.remove("isDeleted");
         editor.apply();
+
+        clearCart(context);
     }
 
     /// Check if a user is logged in by checking if the user id is present in shared preferences
@@ -161,5 +170,44 @@ public class SharedPreferencesUtil {
         return contains(context, "uid");
     }
 
+
+
+    public static void clearCart(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("cart");
+        editor.apply();
+    }
+    public static void addItemToCart(Context context, Item item) {
+        Cart cart = getCart(context);
+        cart.addItem(item);
+        setCart(context, cart);
+    }
+    public static void removeItemFromCart(Context context, Item item) {
+        Cart cart = getCart(context);
+        cart.removeItem(item);
+        setCart(context, cart);
+    }
+    public static Cart getCart(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String cartSt = sharedPreferences.getString("cart", null);
+        Gson gson = new Gson();
+        Cart cart = gson.fromJson(cartSt, Cart.class);
+        if (cart == null) {
+            String uid = AuthenticationService.getInstance().getCurrentUserId();
+            String cartId = DatabaseService.getInstance().generateCartId();
+            cart = new Cart(cartId, "",  new ArrayList<>(), uid);
+            setCart(context, cart);
+        }
+        return cart;
+    }
+
+    public static void setCart(Context context, Cart cart) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        editor.putString("cart", gson.toJson(cart));
+        editor.apply();
+    }
 
 }

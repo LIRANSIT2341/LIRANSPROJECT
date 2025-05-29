@@ -1,14 +1,28 @@
 package com.lirans2341project.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Item implements Serializable {
 
-    protected String id, name, type, size, color, fabric, pic,  userId;
+    public enum PurchaseStatus {
+        AVAILABLE("זמין לקנייה"),
+        SOLD("נרכש");
+
+        private final String displayName;
+
+        PurchaseStatus(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+    }
+
+    protected String id, name, type, size, color, fabric, pic, userId;
     protected double price;
+    protected PurchaseStatus status;
 
     // אתרי בנאי
 
@@ -24,9 +38,12 @@ public class Item implements Serializable {
         this.pic = pic;
         this.userId = userId;
         this.price = price;
+        this.status = PurchaseStatus.AVAILABLE; // ברירת מחדל: זמין לקנייה
     }
 
-    public Item() {}
+    public Item() {
+        this.status = PurchaseStatus.AVAILABLE; // ברירת מחדל: זמין לקנייה
+    }
 
     // הגדרת getters ו-setters
 
@@ -102,6 +119,14 @@ public class Item implements Serializable {
         this.price = price;
     }
 
+    public PurchaseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PurchaseStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -111,9 +136,23 @@ public class Item implements Serializable {
                 ", size='" + size + '\'' +
                 ", color='" + color + '\'' +
                 ", fabric='" + fabric + '\'' +
-                ", pic='" + pic + '\'' +
+                ", pic='" + (pic != null ? "exist" : "not exist") + '\'' +
                 ", userId='" + userId + '\'' +
                 ", price=" + price +
+                ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(id, item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

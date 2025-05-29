@@ -82,6 +82,10 @@ public class User {
         isDeleted = deleted;
     }
 
+    public String getFullName() {
+        return fname + " " + lname;
+    }
+
     @Override
     public String toString() {
         return "User{" +

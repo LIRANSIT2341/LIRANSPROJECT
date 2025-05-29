@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.lirans2341project.R;
 import com.lirans2341project.model.User;
-import com.lirans2341project.services.AuthenticationService;
 import com.lirans2341project.utils.SharedPreferencesUtil;
 
 /// Main activity for the app
@@ -22,8 +21,7 @@ import com.lirans2341project.utils.SharedPreferencesUtil;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
-    private AuthenticationService authenticationService;
-    private Button btnLogout, btnAddItem, btnAddCart, btnToAdmin, btnUserProfile, btnMyCarts, btnGoToMyShop;
+    private Button btnToAdmin, btnGoToMyShop, btnStore, btnMainCart;
 
     /// the current user instance
     /// NOTE:
@@ -43,48 +41,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
 
-        /// get the instance of the authentication service
-        authenticationService = AuthenticationService.getInstance();
 
         /// Check if user is signed in or not and redirect to LandingActivity if not signed in
-        if (!authenticationService.isUserSignedIn()) {
-            Log.d(TAG, "User not signed in, redirecting to LandingActivity");
-            Intent landingIntent = new Intent(MainActivity.this, LandingActivity.class);
-            startActivity(landingIntent);
-            finish();
-            return;
-        }
+
 
         /// get the user data from shared preferences
         user = SharedPreferencesUtil.getUser(MainActivity.this);
         Log.d(TAG, "User: " + user);
 
         /// get the views
-        btnLogout = findViewById(R.id.btn_main_logout);
-        btnAddItem = findViewById(R.id.btn_main_add_item);
-        btnAddCart = findViewById(R.id.btn_main_add_cart);
-        btnMyCarts = findViewById(R.id.btn_main_my_carts);
+        btnStore = findViewById(R.id.btn_main_store);
         btnToAdmin = findViewById(R.id.btn_main_to_admin);
-        btnUserProfile = findViewById(R.id.btn_main_edit_profile);
-        btnGoToMyShop = findViewById(R.id.btnGoToMyShop); // הוספתי את הכפתור כאן
+        btnGoToMyShop = findViewById(R.id.btnGoToMyShop);
+        btnMainCart = findViewById(R.id.btn_main_cart);
 
         /// set the click listeners
-        btnLogout.setOnClickListener(this);
-        btnAddItem.setOnClickListener(this);
-        btnAddCart.setOnClickListener(this);
-        btnMyCarts.setOnClickListener(this);
+        btnStore.setOnClickListener(this);
         btnToAdmin.setOnClickListener(this);
-        btnUserProfile.setOnClickListener(this);
-
-        // הוספת הלחיצה על כפתור "Go to My Shop"
-        btnGoToMyShop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Go to My Shop button clicked");
-                Intent goToMyShopIntent = new Intent(MainActivity.this, MyShopActivity.class);
-                startActivity(goToMyShopIntent);
-            }
-        });
+        btnGoToMyShop.setOnClickListener(this);
+        btnMainCart.setOnClickListener(this);
 
         if (user != null && user.isAdmin()) {
             btnToAdmin.setVisibility(View.VISIBLE);
@@ -93,36 +68,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == btnLogout.getId()) {
-            Log.d(TAG, "Sign out button clicked");
-            /// Sign out the user using the authentication service
-            authenticationService.signOut();
-            /// Clear the user data from shared preferences
-            SharedPreferencesUtil.signOutUser(MainActivity.this);
-
-            Log.d(TAG, "User signed out, redirecting to LandingActivity");
-            Intent landingIntent = new Intent(MainActivity.this, LandingActivity.class);
-            /// Clear the back stack (clear history) and start the LandingActivity
-            landingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(landingIntent);
+        if (v.getId() == btnStore.getId()) {
+            Log.d(TAG, "Store button clicked");
+            Intent storeIntent = new Intent(MainActivity.this, StoreActivity.class);
+            startActivity(storeIntent);
             return;
         }
-        if (v.getId() == btnAddItem.getId()) {
-            Log.d(TAG, "Add food button clicked");
-            Intent addFoodIntent = new Intent(MainActivity.this, AddItemActivity.class);
-            startActivity(addFoodIntent);
+        if (v.getId() == btnGoToMyShop.getId()) {
+            Log.d(TAG, "Go to My Shop button clicked");
+            Intent goToMyShopIntent = new Intent(MainActivity.this, MyShopActivity.class);
+            startActivity(goToMyShopIntent);
             return;
         }
-        if (v.getId() == btnAddCart.getId()) {
-            Log.d(TAG, "Add cart button clicked");
-            Intent addCartIntent = new Intent(MainActivity.this, AddCartActivity.class);
-            startActivity(addCartIntent);
-            return;
-        }
-        if (v.getId() == btnMyCarts.getId()) {
-            Log.d(TAG, "My carts button clicked");
-            Intent myCartsIntent = new Intent(MainActivity.this, MyCartsActivity.class);
-            startActivity(myCartsIntent);
+//        if (v.getId() == btnLogout.getId()) {
+//            Log.d(TAG, "Sign out button clicked");
+//            /// Sign out the user using the authentication service
+//            authenticationService.signOut();
+//            /// Clear the user data from shared preferences
+//            SharedPreferencesUtil.signOutUser(MainActivity.this);
+//
+//            Log.d(TAG, "User signed out, redirecting to LandingActivity");
+//            Intent landingIntent = new Intent(MainActivity.this, LandingActivity.class);
+//            /// Clear the back stack (clear history) and start the LandingActivity
+//            landingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(landingIntent);
+//            return;
+//        }
+//        if (v.getId() == btnAddItem.getId()) {
+//            Log.d(TAG, "Add food button clicked");
+//            Intent addFoodIntent = new Intent(MainActivity.this, AddItemActivity.class);
+//            startActivity(addFoodIntent);
+//            return;
+//        }
+//        if (v.getId() == btnAddCart.getId()) {
+//            Log.d(TAG, "Add cart button clicked");
+//            Intent addCartIntent = new Intent(MainActivity.this, AddCartActivity.class);
+//            startActivity(addCartIntent);
+//            return;
+//        }
+//        if (v.getId() == btnMyCarts.getId()) {
+//            Log.d(TAG, "My carts button clicked");
+//            Intent myCartsIntent = new Intent(MainActivity.this, MyCartsActivity.class);
+//            startActivity(myCartsIntent);
+//            return;
+//        }
+        if (v.getId() == btnMainCart.getId()) {
+            Log.d(TAG, "Cart button clicked");
+            Intent cartIntent = new Intent(MainActivity.this, CartActivity.class);
+            startActivity(cartIntent);
             return;
         }
         if (v.getId() == btnToAdmin.getId()) {
@@ -131,10 +124,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(adminIntent);
             return;
         }
-        if (v.getId() == btnUserProfile.getId()) {
-            Log.d(TAG, "Edit profile button clicked");
-            Intent userProfileIntent = new Intent(MainActivity.this, UserProfileActivity.class);
-            startActivity(userProfileIntent);
-        }
+//        if (v.getId() == btnUserProfile.getId()) {
+//            Log.d(TAG, "Edit profile button clicked");
+//            Intent userProfileIntent = new Intent(MainActivity.this, UserProfileActivity.class);
+//            startActivity(userProfileIntent);
+//        }
     }
 }

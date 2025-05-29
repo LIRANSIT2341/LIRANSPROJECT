@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.lirans2341project.model.Cart;
 import com.lirans2341project.model.Item;
 import com.lirans2341project.model.User;
@@ -14,9 +13,7 @@ import com.lirans2341project.model.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /// a service to interact with the Firebase Realtime Database.
@@ -138,28 +135,6 @@ public class DatabaseService {
             callback.onCompleted(data);
         });
     }
-    private <T> void getDataList(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull Map<String, String> filter, @NotNull final DatabaseCallback<List<T>> callback) {
-        Query dbRef = readData(path);
-
-        for (Map.Entry<String, String> entry : filter.entrySet()) {
-            dbRef = dbRef.orderByChild(entry.getKey()).equalTo(entry.getValue());
-        }
-
-        dbRef.get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e(TAG, "Error getting data", task.getException());
-                callback.onFailed(task.getException());
-                return;
-            }
-            List<T> tList = new ArrayList<>();
-            task.getResult().getChildren().forEach(dataSnapshot -> {
-                T t = dataSnapshot.getValue(clazz);
-                tList.add(t);
-            });
-
-            callback.onCompleted(tList);
-        });
-    }
 
     /// generate a new id for a new object in the database
     /// @param path the path to generate the id for
@@ -211,7 +186,7 @@ public class DatabaseService {
         getData("items/" + id, Item.class, callback);
     }
     public void getUserList(@NotNull final DatabaseCallback<List<User>> callback) {
-        getDataList("Users", User.class, new HashMap<>(), callback);
+        getDataList("Users", User.class, callback);
     }
 
     public void deleteItem(@NotNull final String itemId, @Nullable final DatabaseCallback<Void> callback) {
@@ -223,7 +198,7 @@ public class DatabaseService {
             }
         });
     }
-    public void getItemList(@NotNull final DatabaseCallback<List<Item>> callback){
+    public void getItemList(@NotNull final DatabaseCallback<List<Item>> callback) {
         getDataList("items", Item.class, callback);
     }
 

@@ -1,121 +1,147 @@
 package com.lirans2341project.screen;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
 import com.lirans2341project.R;
 import com.lirans2341project.model.Item;
+import com.lirans2341project.model.User;
 import com.lirans2341project.services.DatabaseService;
 import com.lirans2341project.utils.ImageUtil;
+import com.lirans2341project.utils.SharedPreferencesUtil;
 
 public class ItemDetailsActivity extends AppCompatActivity {
 
-    private DatabaseService databaseService;
-    private TextView tvName, tvType, tvSize, tvColor, tvFabric, tvPrice;
-    private ImageView ivItemImage;
-    private ProgressBar progressBar;
-    private Button btnDeleteItem;  // כפתור מחיקה
+    private Item currentItem;
+    private User seller;
+    DatabaseService databaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_item_details);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
         databaseService = DatabaseService.getInstance();
-        initViews();
 
         String itemId = getIntent().getStringExtra("ITEM_ID");
         if (itemId == null) {
-            Toast.makeText(this, "Item ID not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "שגיאה בטעינת הפריט", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        loadItemDetails(itemId);
+    }
 
-        // קבלת הפריט מהמאגר
+    private void loadItemDetails(String itemId) {
+
         databaseService.getItem(itemId, new DatabaseService.DatabaseCallback<Item>() {
             @Override
             public void onCompleted(Item item) {
-                progressBar.setVisibility(View.GONE);
-                if (item == null) {
-                    Toast.makeText(ItemDetailsActivity.this, "Item not found", Toast.LENGTH_SHORT).show();
-                    finish();
-                    return;
-                }
-                bindItemToView(item);
+                currentItem = item;
+                displayItemDetails();
+                loadSellerDetails(item.getUserId());
             }
 
             @Override
             public void onFailed(Exception e) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(ItemDetailsActivity.this, "Error loading item", Toast.LENGTH_SHORT).show();
+
             }
         });
+    }
 
-        // הגדרת לחיצה על כפתור המחיקה
-        btnDeleteItem.setOnClickListener(v -> {
-            deleteItemFromDatabase(itemId);
+    private void loadSellerDetails(String sellerId) {
+        databaseService.getUser(sellerId, new DatabaseService.DatabaseCallback<User>() {
+            @Override
+            public void onCompleted(User user) {
+                seller = user;
+                displaySellerDetails();
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(ItemDetailsActivity.this, "שגיאה בטעינת פרטי המוכר", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    private void initViews() {
-        tvName = findViewById(R.id.tv_item_name);
-        tvType = findViewById(R.id.tv_item_type);
-        tvSize = findViewById(R.id.tv_item_size);
-        tvColor = findViewById(R.id.tv_item_color);
-        tvFabric = findViewById(R.id.tv_item_fabric);
-        tvPrice = findViewById(R.id.tv_item_price);
-        ivItemImage = findViewById(R.id.iv_item_image);
-        progressBar = findViewById(R.id.item_details_progress_bar);
-        btnDeleteItem = findViewById(R.id.btn_delete_item);  // אתחול כפתור המחיקה
-    }
+    private void displayItemDetails() {
+        ImageView itemImage = findViewById(R.id.item_image);
+        TextView nameText = findViewById(R.id.item_name);
+        TextView priceText = findViewById(R.id.item_price);
+        TextView typeText = findViewById(R.id.item_type);
+        TextView sizeText = findViewById(R.id.item_size);
+        TextView colorText = findViewById(R.id.item_color);
+        TextView fabricText = findViewById(R.id.item_fabric);
+        TextView statusText = findViewById(R.id.item_status);
+        MaterialButton addToCartButton = findViewById(R.id.add_to_cart_button);
+        MaterialButton buyNowButton = findViewById(R.id.buy_now_button);
 
-    private void bindItemToView(Item item) {
-        tvName.setText(item.getName());
-        tvType.setText(item.getType());
-        tvSize.setText(item.getSize());
-        tvColor.setText(item.getColor());
-        tvFabric.setText(item.getFabric());
-        tvPrice.setText("₪" + item.getPrice());
+        // טעינת תמונת המוצר
+        if (currentItem.getPic() == null || currentItem.getPic().isEmpty()) {
+            itemImage.setImageResource(R.drawable.placeholder_image);
+        } else {
+            Glide.with(this)
+                    .load(ImageUtil.convertFrom64base(currentItem.getPic()))
+                    .placeholder(R.drawable.placeholder_image)
+                    .error(R.drawable.placeholder_image)
+                    .into(itemImage);
+        }
 
-        if (item.getPic() != null && !item.getPic().isEmpty()) {
-            ivItemImage.setImageBitmap(ImageUtil.convertFrom64base(item.getPic()));
+        // הצגת פרטי המוצר
+        nameText.setText(currentItem.getName());
+        priceText.setText(String.format("₪%.2f", currentItem.getPrice()));
+        typeText.setText(currentItem.getType());
+        sizeText.setText(currentItem.getSize());
+        colorText.setText(currentItem.getColor());
+        fabricText.setText(currentItem.getFabric());
+
+        // הצגת סטטוס המוצר והתאמת כפתורים
+        if (currentItem.getStatus() == Item.PurchaseStatus.SOLD) {
+            statusText.setText("נמכר");
+            addToCartButton.setEnabled(false);
+            buyNowButton.setEnabled(false);
+        } else {
+            statusText.setText("זמין");
+            setupPurchaseButtons();
         }
     }
 
-    private void deleteItemFromDatabase(String itemId) {
-        if (itemId != null) {
-            databaseService.deleteItem(itemId, new DatabaseService.DatabaseCallback<Void>() {
-                @Override
-                public void onCompleted(Void result) {
-                    Toast.makeText(ItemDetailsActivity.this, "Item deleted successfully", Toast.LENGTH_SHORT).show();
-                    finish();  // סיום הפעילות (מעבר אחורה)
-                }
+    private void displaySellerDetails() {
+        TextView sellerNameText = findViewById(R.id.seller_name);
+        MaterialButton contactButton = findViewById(R.id.contact_seller_button);
 
-                @Override
-                public void onFailed(Exception e) {
-                    Toast.makeText(ItemDetailsActivity.this, "Error deleting item", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        sellerNameText.setText(seller.getFullName());
+        
+        contactButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            intent.setData(Uri.parse("mailto:" + seller.getEmail()));
+            intent.putExtra(Intent.EXTRA_SUBJECT, "שאלה לגבי " + currentItem.getName());
+            startActivity(Intent.createChooser(intent, "שליחת מייל"));
+        });
+    }
+
+    private void setupPurchaseButtons() {
+        MaterialButton addToCartButton = findViewById(R.id.add_to_cart_button);
+        MaterialButton buyNowButton = findViewById(R.id.buy_now_button);
+
+        addToCartButton.setOnClickListener(v -> {
+            SharedPreferencesUtil.addItemToCart(ItemDetailsActivity.this, currentItem);
+            Toast.makeText(this, "המוצר נוסף לסל הקניות", Toast.LENGTH_SHORT).show();
+        });
+
+        buyNowButton.setOnClickListener(v -> {
+            SharedPreferencesUtil.addItemToCart(ItemDetailsActivity.this, currentItem);
+            Intent intent = new Intent(this, PurchaseActivity.class);
+            startActivity(intent);
+        });
     }
 }
