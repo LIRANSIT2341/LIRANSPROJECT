@@ -99,11 +99,15 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void addToCart(Item item) {
-        cartItems.add(item);
-        SharedPreferencesUtil.addItemToCart(this, item);
-        updateTotalPrice();
-        cartItemsAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "הפריט נוסף לסל", Toast.LENGTH_SHORT).show();
+        if (!cartItems.contains(item)) {
+            cartItems.add(item);
+            SharedPreferencesUtil.addItemToCart(this, item);
+            updateTotalPrice();
+            cartItemsAdapter.notifyDataSetChanged();
+            Toast.makeText(this, "הפריט נוסף לסל", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "הפריט כבר קיים בסל", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void removeFromCart(Item item) {
@@ -111,7 +115,7 @@ public class CartActivity extends AppCompatActivity {
         SharedPreferencesUtil.removeItemFromCart(this, item);
         updateTotalPrice();
         cartItemsAdapter.notifyDataSetChanged();
-        Toast.makeText(this, "הפריט נוסף לסל", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "הפריט הוסר מהסל", Toast.LENGTH_SHORT).show();
     }
 
     private void updateTotalPrice() {

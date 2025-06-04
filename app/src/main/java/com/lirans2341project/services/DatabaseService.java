@@ -185,6 +185,11 @@ public class DatabaseService {
     public void getItem(@NotNull final String id, @NotNull final DatabaseCallback<Item> callback) {
         getData("items/" + id, Item.class, callback);
     }
+
+    public void updateItem(@NotNull final Item item, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("items/" + item.getId(), item, callback);
+    }
+
     public void getUserList(@NotNull final DatabaseCallback<List<User>> callback) {
         getDataList("Users", User.class, callback);
     }

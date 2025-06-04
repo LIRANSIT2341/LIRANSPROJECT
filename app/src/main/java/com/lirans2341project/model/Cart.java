@@ -47,7 +47,13 @@ public class Cart implements Serializable {
     }
 
     public void addItem(Item item) {
-        items.add(item);
+        if (!containsItem(item)) {
+            items.add(item);
+        }
+    }
+
+    public boolean containsItem(Item item) {
+        return items.contains(item);
     }
 
     public void addItems(List<Item> items) {

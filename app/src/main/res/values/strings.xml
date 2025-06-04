@@ -1,3 +1,222 @@
 <resources>
     <string name="app_name">Lirans2341Project</string>
+
+    <!-- Item Types -->
+    <string-array name="item_types">
+        <item>חולצה קצרה</item>
+        <item>חולצה ארוכה</item>
+        <item>גופייה</item>
+        <item>סווטשירט</item>
+        <item>מכנסיים ארוכים</item>
+        <item>מכנסיים קצרים</item>
+        <item>ג׳ינס</item>
+        <item>טייץ</item>
+        <item>שמלה קצרה</item>
+        <item>שמלה ארוכה</item>
+        <item>שמלת ערב</item>
+        <item>חצאית מיני</item>
+        <item>חצאית מידי</item>
+        <item>חצאית מקסי</item>
+        <item>ג׳קט ג׳ינס</item>
+        <item>ג׳קט עור</item>
+        <item>מעיל חורף</item>
+        <item>בלייזר</item>
+        <item>סוודר</item>
+        <item>קרדיגן</item>
+        <item>נעלי ספורט</item>
+        <item>נעלי עקב</item>
+        <item>מגפיים</item>
+        <item>סנדלים</item>
+        <item>כפכפים</item>
+        <item>נעלי בית</item>
+        <item>תיק יד</item>
+        <item>תיק גב</item>
+        <item>תיק צד</item>
+        <item>ארנק</item>
+        <item>צעיף</item>
+        <item>כובע</item>
+        <item>כפפות</item>
+        <item>חגורה</item>
+        <item>שרשרת</item>
+        <item>צמיד</item>
+        <item>טבעת</item>
+        <item>עגילים</item>
+        <item>משקפי שמש</item>
+    </string-array>
+
+    <!-- Item Sizes -->
+    <string-array name="item_sizes">
+        <!-- מידות בגדים -->
+        <item>XXS</item>
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+        <item>XXL</item>
+        <item>XXXL</item>
+        <!-- מידות נעליים נשים -->
+        <item>35</item>
+        <item>35.5</item>
+        <item>36</item>
+        <item>36.5</item>
+        <item>37</item>
+        <item>37.5</item>
+        <item>38</item>
+        <item>38.5</item>
+        <item>39</item>
+        <item>39.5</item>
+        <item>40</item>
+        <item>40.5</item>
+        <item>41</item>
+        <!-- מידות נעליים גברים -->
+        <item>41.5</item>
+        <item>42</item>
+        <item>42.5</item>
+        <item>43</item>
+        <item>43.5</item>
+        <item>44</item>
+        <item>44.5</item>
+        <item>45</item>
+        <item>45.5</item>
+        <item>46</item>
+        <!-- מידות מספריות -->
+        <item>32</item>
+        <item>34</item>
+        <item>36</item>
+        <item>38</item>
+        <item>40</item>
+        <item>42</item>
+        <item>44</item>
+        <item>46</item>
+        <item>48</item>
+        <item>50</item>
+        <!-- מידות ילדים -->
+        <item>2-3</item>
+        <item>3-4</item>
+        <item>4-5</item>
+        <item>5-6</item>
+        <item>6-7</item>
+        <item>7-8</item>
+        <item>8-9</item>
+        <item>9-10</item>
+        <item>10-11</item>
+        <item>11-12</item>
+        <item>12-13</item>
+        <item>13-14</item>
+        <!-- מידה אחידה -->
+        <item>One Size</item>
+    </string-array>
+
+    <!-- Item Colors -->
+    <string-array name="item_colors">
+        <!-- צבעים בסיסיים -->
+        <item>שחור</item>
+        <item>לבן</item>
+        <item>אפור בהיר</item>
+        <item>אפור כהה</item>
+        <!-- גווני אדום -->
+        <item>אדום</item>
+        <item>בורדו</item>
+        <item>ורוד בהיר</item>
+        <item>ורוד</item>
+        <item>פוקסיה</item>
+        <item>סלמון</item>
+        <!-- גווני כחול -->
+        <item>כחול בהיר</item>
+        <item>כחול</item>
+        <item>כחול כהה</item>
+        <item>טורקיז</item>
+        <item>תכלת</item>
+        <item>נייבי</item>
+        <!-- גווני ירוק -->
+        <item>ירוק בהיר</item>
+        <item>ירוק</item>
+        <item>ירוק כהה</item>
+        <item>זית</item>
+        <item>מנטה</item>
+        <!-- גווני צהוב -->
+        <item>צהוב</item>
+        <item>חרדל</item>
+        <item>זהב</item>
+        <!-- גווני כתום -->
+        <item>כתום</item>
+        <item>אפרסק</item>
+        <!-- גווני סגול -->
+        <item>סגול בהיר</item>
+        <item>סגול</item>
+        <item>סגול כהה</item>
+        <!-- גווני חום -->
+        <item>בז׳</item>
+        <item>קרם</item>
+        <item>חום בהיר</item>
+        <item>חום</item>
+        <item>חום כהה</item>
+        <item>קאמל</item>
+        <!-- מיוחדים -->
+        <item>כסף</item>
+        <item>נחושת</item>
+        <item>מטאלי</item>
+        <item>הולוגרפי</item>
+        <!-- הדפסים -->
+        <item>פרחוני</item>
+        <item>משובץ</item>
+        <item>מנומר</item>
+        <item>מנוקד</item>
+        <item>פסים</item>
+        <item>קמופלאז׳</item>
+    </string-array>
+
+    <!-- Item Fabrics -->
+    <string-array name="item_fabrics">
+        <!-- בדים טבעיים -->
+        <item>כותנה</item>
+        <item>כותנה אורגנית</item>
+        <item>פימה כותנה</item>
+        <item>צמר</item>
+        <item>צמר מרינו</item>
+        <item>קשמיר</item>
+        <item>משי</item>
+        <item>משי טבעי</item>
+        <item>פשתן</item>
+        <!-- בדים סינטטיים -->
+        <item>פוליאסטר</item>
+        <item>ניילון</item>
+        <item>אקריליק</item>
+        <item>ספנדקס</item>
+        <item>לייקרה</item>
+        <item>ויסקוזה</item>
+        <!-- תערובות -->
+        <item>כותנה-פוליאסטר</item>
+        <item>כותנה-ספנדקס</item>
+        <item>צמר-פוליאסטר</item>
+        <item>משי-ויסקוזה</item>
+        <!-- בדי ג׳ינס -->
+        <item>דנים</item>
+        <item>ג׳ינס אלסטי</item>
+        <item>ג׳ינס קלאסי</item>
+        <!-- בדי סריג -->
+        <item>סריג דק</item>
+        <item>סריג בינוני</item>
+        <item>סריג עבה</item>
+        <item>ריב</item>
+        <item>פליז</item>
+        <!-- בדים מיוחדים -->
+        <item>קטיפה</item>
+        <item>שיפון</item>
+        <item>טול</item>
+        <item>תחרה</item>
+        <item>סאטן</item>
+        <!-- עור ודמוי עור -->
+        <item>עור אמיתי</item>
+        <item>עור נאפה</item>
+        <item>דמוי עור</item>
+        <item>זמש</item>
+        <item>דמוי זמש</item>
+        <!-- בדים טכניים -->
+        <item>דרי-פיט</item>
+        <item>בד נושם</item>
+        <item>בד מנדף זיעה</item>
+        <item>בד אטום למים</item>
+    </string-array>
 </resources>

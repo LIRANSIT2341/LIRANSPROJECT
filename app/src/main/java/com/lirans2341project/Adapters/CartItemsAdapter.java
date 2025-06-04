@@ -58,7 +58,6 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
         private final TextView itemName;
         private final TextView itemPrice;
         private final ImageButton decreaseButton;
-        private final ImageButton increaseButton;
         private final TextView totalPrice;
 
         public CartItemViewHolder(@NonNull View itemView) {
@@ -67,7 +66,6 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.Cart
             itemName = itemView.findViewById(R.id.cart_item_name);
             itemPrice = itemView.findViewById(R.id.cart_item_price);
             decreaseButton = itemView.findViewById(R.id.decrease_button);
-            increaseButton = itemView.findViewById(R.id.increase_button);
             totalPrice = itemView.findViewById(R.id.total_price);
         }
 

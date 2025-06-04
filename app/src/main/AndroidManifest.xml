@@ -81,6 +81,7 @@
             android:exported="false" />
         <activity android:name=".screen.PurchaseActivity" />
         <activity android:name=".screen.PurchaseConfirmationActivity" />
+        <activity android:name=".screen.EditItemActivity" />
     </application>
 
 </manifest>
