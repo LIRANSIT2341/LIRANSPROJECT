@@ -1,69 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/menuGoStore"
-        android:icon="@drawable/ic_baseline_shopping_basket_24"
-        android:title="מעבר לחנות"
-        android:orderInCategory="100"
-        android:gravity="right"
-        app:showAsAction="never"
-        />
+        android:id="@+id/action_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="פרופיל"
+        app:showAsAction="ifRoom"/>
+
     <item
-        android:id="@+id/menuGoAddItem"
-        android:icon="@drawable/ic_baseline_add_24"
-        android:orderInCategory="100"
-        android:gravity="right"
-        android:title="הוספת פריט"
-        app:showAsAction="never"
-        />
+        android:id="@+id/action_store"
+        android:icon="@drawable/ic_shop"
+        android:title="חנות"
+        app:showAsAction="ifRoom"/>
+
     <item
-        android:id="@+id/menuGoPersonal"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:title="איזור אישי"
-        android:orderInCategory="100"
-        android:gravity="right"
-        app:showAsAction="never"
-        />
+        android:id="@+id/action_cart"
+        android:icon="@drawable/ic_add_cart"
+        android:title="עגלת קניות"
+        app:showAsAction="ifRoom"/>
+
     <item
-        android:id="@+id/menuGoWishList"
-        android:icon="@drawable/ic_baseline_favorite_border_24"
-        android:title="רשימת המועדפים שלי"
-        android:orderInCategory="100"
-        android:gravity="right"
-        app:showAsAction="never"
-        />
+        android:id="@+id/action_admin"
+        android:icon="@drawable/ic_admin"
+        android:title="ניהול"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+
     <item
-        android:id="@+id/menuGoAboutUs"
-        android:icon="@drawable/ic_baseline_info_24"
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_about"
         android:title="אודות"
-        android:orderInCategory="100"
-        android:gravity="right"
-        app:showAsAction="never"
-        />
+        app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/menuGoAdminPage"
-        android:icon="@drawable/ic_baseline_admin"
-        android:title="דף מנהל"
-        android:orderInCategory="100"
-        android:gravity="right"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/menuGoLogOut"
-        android:icon="@drawable/ic_baseline_logout"
+        android:id="@+id/action_logout"
         android:title="התנתק"
-        android:orderInCategory="100"
-        android:gravity="right"
-        app:showAsAction="never"
-        />
-
-    <item
-        android:id="@+id/menuGoAfterLogin"
-        android:icon="@drawable/home_icon"
-        android:title="בית"
-        app:showAsAction="always"
-        />
+        app:showAsAction="never"/>
 </menu>

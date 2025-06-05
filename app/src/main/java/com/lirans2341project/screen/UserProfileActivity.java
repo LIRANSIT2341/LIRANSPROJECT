@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,10 +24,10 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
     private static final String TAG = "UserProfileActivity";
 
-    private EditText etUserFirstName, etUserLastName, etUserEmail, etUserPhone, etUserPassword;
-    private Button btnUpdateProfile , btnDeleteProfile;
+    private EditText etUserFirstName, etUserLastName, etUserPhone;
+    private TextView etUserEmail, etUserPassword;
+    private Button btnUpdateProfile, btnDeleteProfile;
     private DatabaseService databaseService;
-    //private AuthenticationService.Admin adminService;
     String selectedUid;
     User selectedUser;
     boolean isCurrentUser = false;
@@ -43,7 +44,6 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         });
 
         databaseService = DatabaseService.getInstance();
-        //adminService = AuthenticationService.Admin.getInstance(this);
 
         selectedUid = getIntent().getStringExtra("USER_UID");
         User currentUser = SharedPreferencesUtil.getUser(this);
@@ -54,7 +54,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         if (!isCurrentUser && !currentUser.isAdmin()) {
             // If the user is not an admin and the selected user is not the current user
             // then finish the activity
-            Toast.makeText(this, "You are not authorized to view this profile", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "אין לך הרשאה לצפות בפרופיל זה", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -68,7 +68,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         etUserPhone = findViewById(R.id.et_user_phone);
         etUserPassword = findViewById(R.id.et_user_password);
         btnUpdateProfile = findViewById(R.id.btn_edit_profile);
-        btnDeleteProfile=findViewById(R.id.btn_delete_profile);
+        btnDeleteProfile = findViewById(R.id.btn_delete_profile);
 
         btnDeleteProfile.setOnClickListener(this);
         btnUpdateProfile.setOnClickListener(this);
@@ -97,13 +97,13 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         databaseService.createNewUser(selectedUser, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void object) {
-                Toast.makeText(UserProfileActivity.this, "yayyyyyy", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, "המשתמש נמחק בהצלחה", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailed(Exception e) {
-
+                Toast.makeText(UserProfileActivity.this, "שגיאה במחיקת המשתמש", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,13 +119,13 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 etUserLastName.setText(user.getLname());
                 etUserEmail.setText(user.getEmail());
                 etUserPhone.setText(user.getPhone());
-                etUserPassword.setText(user.getPassword());
-
+                etUserPassword.setText(user.getPassword()); // מציג את הסיסמה האמיתית
             }
 
             @Override
             public void onFailed(Exception e) {
                 Log.e(TAG, "Error getting user profile", e);
+                Toast.makeText(UserProfileActivity.this, "שגיאה בטעינת הפרופיל", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -133,17 +133,15 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     private void updateUserProfile() {
         if (selectedUser == null) {
             Log.e(TAG, "User not found");
-            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "המשתמש לא נמצא", Toast.LENGTH_SHORT).show();
             return;
         }
         // Get the updated user data from the EditText fields
         String firstName = etUserFirstName.getText().toString();
         String lastName = etUserLastName.getText().toString();
         String phone = etUserPhone.getText().toString();
-        String email = etUserEmail.getText().toString();
-        String password = etUserPassword.getText().toString();
 
-        if (!isValid(firstName, lastName, phone, email, password)) {
+        if (!isValid(firstName, lastName, phone)) {
             Log.e(TAG, "Invalid input");
             return;
         }
@@ -152,50 +150,38 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         selectedUser.setFname(firstName);
         selectedUser.setLname(lastName);
         selectedUser.setPhone(phone);
-        selectedUser.setEmail(email);
-        selectedUser.setPassword(password);
+        // לא מעדכנים אימייל וסיסמה
 
         databaseService.createNewUser(selectedUser, new DatabaseService.DatabaseCallback<Void>() {
             @Override
             public void onCompleted(Void object) {
                 if (isCurrentUser)
                     SharedPreferencesUtil.saveUser(getApplicationContext(), selectedUser);
-                Toast.makeText(UserProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, "הפרופיל עודכן בהצלחה", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailed(Exception e) {
                 Log.e(TAG, "Error updating profile", e);
-                Toast.makeText(UserProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UserProfileActivity.this, "שגיאה בעדכון הפרופיל", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
-    private boolean isValid(String firstName, String lastName, String phone, String email, String password) {
+    private boolean isValid(String firstName, String lastName, String phone) {
         if (!Validator.isNameValid(firstName)) {
-            etUserFirstName.setError("First name is required");
+            etUserFirstName.setError("נא להזין שם פרטי");
             etUserFirstName.requestFocus();
             return false;
         }
         if (!Validator.isNameValid(lastName)) {
-            etUserLastName.setError("Last name is required");
+            etUserLastName.setError("נא להזין שם משפחה");
             etUserLastName.requestFocus();
             return false;
         }
         if (!Validator.isPhoneValid(phone)) {
-            etUserPhone.setError("Phone number is required");
+            etUserPhone.setError("נא להזין מספר טלפון תקין");
             etUserPhone.requestFocus();
-            return false;
-        }
-        if (!Validator.isEmailValid(email)) {
-            etUserEmail.setError("Email is required");
-            etUserEmail.requestFocus();
-            return false;
-        }
-        if (!Validator.isPasswordValid(password)) {
-            etUserPassword.setError("Password is required");
-            etUserPassword.requestFocus();
             return false;
         }
         return true;

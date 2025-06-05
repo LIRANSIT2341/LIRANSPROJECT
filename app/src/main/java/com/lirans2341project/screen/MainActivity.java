@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -18,7 +17,7 @@ import com.lirans2341project.utils.SharedPreferencesUtil;
 
 /// Main activity for the app
 /// This activity is the main activity that is shown when the user is signed in
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private Button btnToAdmin, btnGoToMyShop, btnStore, btnMainCart;
@@ -41,9 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
 
-
         /// Check if user is signed in or not and redirect to LandingActivity if not signed in
-
 
         /// get the user data from shared preferences
         user = SharedPreferencesUtil.getUser(MainActivity.this);
@@ -61,8 +58,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnGoToMyShop.setOnClickListener(this);
         btnMainCart.setOnClickListener(this);
 
+        // Show admin card if user is admin
+        View adminCard = findViewById(R.id.admin_card);
         if (user != null && user.isAdmin()) {
-            btnToAdmin.setVisibility(View.VISIBLE);
+            adminCard.setVisibility(View.VISIBLE);
+        } else {
+            adminCard.setVisibility(View.GONE);
         }
     }
 
@@ -80,38 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(goToMyShopIntent);
             return;
         }
-//        if (v.getId() == btnLogout.getId()) {
-//            Log.d(TAG, "Sign out button clicked");
-//            /// Sign out the user using the authentication service
-//            authenticationService.signOut();
-//            /// Clear the user data from shared preferences
-//            SharedPreferencesUtil.signOutUser(MainActivity.this);
-//
-//            Log.d(TAG, "User signed out, redirecting to LandingActivity");
-//            Intent landingIntent = new Intent(MainActivity.this, LandingActivity.class);
-//            /// Clear the back stack (clear history) and start the LandingActivity
-//            landingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(landingIntent);
-//            return;
-//        }
-//        if (v.getId() == btnAddItem.getId()) {
-//            Log.d(TAG, "Add food button clicked");
-//            Intent addFoodIntent = new Intent(MainActivity.this, AddItemActivity.class);
-//            startActivity(addFoodIntent);
-//            return;
-//        }
-//        if (v.getId() == btnAddCart.getId()) {
-//            Log.d(TAG, "Add cart button clicked");
-//            Intent addCartIntent = new Intent(MainActivity.this, AddCartActivity.class);
-//            startActivity(addCartIntent);
-//            return;
-//        }
-//        if (v.getId() == btnMyCarts.getId()) {
-//            Log.d(TAG, "My carts button clicked");
-//            Intent myCartsIntent = new Intent(MainActivity.this, MyCartsActivity.class);
-//            startActivity(myCartsIntent);
-//            return;
-//        }
         if (v.getId() == btnMainCart.getId()) {
             Log.d(TAG, "Cart button clicked");
             Intent cartIntent = new Intent(MainActivity.this, CartActivity.class);
@@ -124,10 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(adminIntent);
             return;
         }
-//        if (v.getId() == btnUserProfile.getId()) {
-//            Log.d(TAG, "Edit profile button clicked");
-//            Intent userProfileIntent = new Intent(MainActivity.this, UserProfileActivity.class);
-//            startActivity(userProfileIntent);
-//        }
     }
+
 }

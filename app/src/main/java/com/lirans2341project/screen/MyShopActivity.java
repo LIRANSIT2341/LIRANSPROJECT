@@ -3,12 +3,10 @@ package com.lirans2341project.screen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,7 +22,7 @@ import com.lirans2341project.services.DatabaseService;
 
 import java.util.List;
 
-public class MyShopActivity extends AppCompatActivity {
+public class MyShopActivity extends BaseActivity {
 
     private static final String TAG = "MyShopActivity";
     private RecyclerView itemsList;
@@ -61,6 +59,12 @@ public class MyShopActivity extends AppCompatActivity {
 
         // הגדרת OnItemClickListener
         StoreItemsAdapter.OnItemClickListener onItemClickListener = item -> {
+            // בדיקה אם הפריט נמכר
+            if (item.getStatus() == Item.PurchaseStatus.SOLD) {
+                Toast.makeText(this, "לא ניתן לערוך פריט שנמכר", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
             // פתיחת מסך עריכת פריט
             Intent intent = new Intent(this, EditItemActivity.class);
             intent.putExtra("ITEM_ID", item.getId());
@@ -76,13 +80,6 @@ public class MyShopActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddItemActivity.class);
             startActivity(intent);
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // יצירת התפריט
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
     }
 
     @Override

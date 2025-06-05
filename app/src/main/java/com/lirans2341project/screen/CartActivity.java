@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,8 +21,9 @@ import com.lirans2341project.utils.SharedPreferencesUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends BaseActivity {
 
+    private static final int PURCHASE_REQUEST_CODE = 100;
     private RecyclerView cartItemsList;
     private CartItemsAdapter cartItemsAdapter;
     private TextView totalPriceText;
@@ -28,6 +31,22 @@ public class CartActivity extends AppCompatActivity {
     private DatabaseService databaseService;
     private List<Item> cartItems;
     private double totalPrice = 0.0;
+
+    // ActivityResultLauncher לטיפול בתוצאת התשלום
+    private final ActivityResultLauncher<Intent> purchaseActivityLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                if (data != null && "CART_CLEARED".equals(data.getAction())) {
+                    // רענון העגלה
+                    loadCartItems();
+                    Toast.makeText(this, "העגלה רוקנה בהצלחה", Toast.LENGTH_SHORT).show();
+                    finish(); // סגירת מסך העגלה
+                }
+            }
+        }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +154,6 @@ public class CartActivity extends AppCompatActivity {
 
         // מעבר למסך התשלום
         Intent intent = new Intent(this, PurchaseActivity.class);
-        startActivity(intent);
+        purchaseActivityLauncher.launch(intent);
     }
 } 

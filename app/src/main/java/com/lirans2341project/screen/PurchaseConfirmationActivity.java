@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,11 +39,17 @@ public class PurchaseConfirmationActivity extends AppCompatActivity {
             shippingDetailsText.setText(shippingText);
         }
 
+        // הודעה על ריקון העגלה
+        Toast.makeText(this, "העגלה רוקנה בהצלחה", Toast.LENGTH_SHORT).show();
+
         // חזרה לחנות הראשית
         returnToStoreButton.setOnClickListener(v -> {
+            // סגירת כל המסכים הקודמים וחזרה לחנות
             Intent intent = new Intent(this, StoreActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            
+            // סגירת מסך אישור הרכישה
             finish();
         });
     }

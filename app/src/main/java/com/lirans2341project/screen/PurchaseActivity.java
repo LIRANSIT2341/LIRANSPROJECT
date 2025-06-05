@@ -134,12 +134,15 @@ public class PurchaseActivity extends AppCompatActivity {
                 additionalInfoInput.getText().toString()
         );
 
-
         List<Item> items = cart.getItems();
 
         int totalItems = items.size();
         AtomicInteger completedCount = new AtomicInteger(0);
         AtomicBoolean hasFailed = new AtomicBoolean(false);
+
+        // נטרל את כפתור התשלום בזמן העיבוד
+        confirmPurchaseButton.setEnabled(false);
+
         for (Item item : items) {
             item.setStatus(Item.PurchaseStatus.SOLD);
             databaseService.createNewItem(item, new DatabaseService.DatabaseCallback<Void>() {
@@ -151,10 +154,19 @@ public class PurchaseActivity extends AppCompatActivity {
                     if (finished == totalItems) {
                         // All items processed successfully
                         SharedPreferencesUtil.clearCart(PurchaseActivity.this);
+
+                        // סגירת מסך העגלה
+                        Intent cartIntent = new Intent();
+                        cartIntent.setAction("CART_CLEARED");
+                        setResult(RESULT_OK, cartIntent);
+
+                        // מעבר למסך אישור הרכישה
                         Intent intent = new Intent(PurchaseActivity.this, PurchaseConfirmationActivity.class);
                         intent.putExtra("ITEM_NAME", items.get(0).getName()); // Or pass list
                         intent.putExtra("SHIPPING_DETAILS", shippingDetails);
                         startActivity(intent);
+                        
+                        // סגירת מסך התשלום
                         finish();
                     }
                 }
@@ -163,11 +175,11 @@ public class PurchaseActivity extends AppCompatActivity {
                 public void onFailed(Exception e) {
                     if (hasFailed.compareAndSet(false, true)) {
                         Toast.makeText(PurchaseActivity.this, "שגיאה בעיבוד הרכישה", Toast.LENGTH_SHORT).show();
+                        // הפעלה מחדש של כפתור התשלום במקרה של שגיאה
+                        confirmPurchaseButton.setEnabled(true);
                     }
                 }
             });
         }
-
-
     }
 } 

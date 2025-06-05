@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Lirans2341project"
+        android:theme="@style/Theme.Lirans2341Project"
         tools:targetApi="31">
         <activity
             android:name=".screen.SplashActivity"
@@ -26,37 +27,71 @@
         </activity>
         <activity
             android:name=".screen.ItemDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.StoreActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.StoreActivity" />
+        </activity>
         <activity
             android:name=".screen.MyShopActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
         <activity
             android:name=".screen.UsersListActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.AdminActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.AdminActivity" />
+        </activity>
         <activity
             android:name=".screen.UserProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screen.MyCartsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
+
         <activity
             android:name=".screen.LandingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
         <activity
             android:name=".screen.AdminActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
         <activity
             android:name=".screen.AddItemActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screen.AddCartActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.MyShopActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MyShopActivity" />
+        </activity>
+
         <activity
             android:name=".screen.CartDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SearchItem"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.CartActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.CartActivity" />
+        </activity>
+       
         <activity
             android:name=".screen.MainActivity"
             android:exported="true">
@@ -68,20 +103,66 @@
         </activity>
         <activity
             android:name=".screen.CartActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
 
         <activity
             android:name=".screen.Login"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
         <activity
             android:name=".screen.Register"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".screen.Login">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.Login" />
+        </activity>
         <activity
             android:name=".screen.StoreActivity"
-            android:exported="false" />
-        <activity android:name=".screen.PurchaseActivity" />
-        <activity android:name=".screen.PurchaseConfirmationActivity" />
-        <activity android:name=".screen.EditItemActivity" />
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
+        <activity
+            android:name=".screen.AboutActivity"
+            android:exported="false"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
+        <activity 
+            android:name=".screen.PurchaseActivity"
+            android:parentActivityName=".screen.CartActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.CartActivity" />
+        </activity>
+        <activity 
+            android:name=".screen.PurchaseConfirmationActivity"
+            android:parentActivityName=".screen.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MainActivity" />
+        </activity>
+        <activity 
+            android:name=".screen.EditItemActivity"
+            android:parentActivityName=".screen.MyShopActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".screen.MyShopActivity" />
+        </activity>
     </application>
 
 </manifest>

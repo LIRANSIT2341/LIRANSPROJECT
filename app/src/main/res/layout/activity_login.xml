@@ -5,63 +5,63 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screen.Login"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".screen.Login">
 
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="כניסה למשתמש"
-        android:layout_marginTop="20dp"
-        android:textSize="40sp"
         android:layout_gravity="center"
-        android:gravity="center"/>
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="כניסה למשתמש"
+        android:textSize="40sp" />
 
     <EditText
         android:id="@+id/etEmailLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:ems="10"
-        android:inputType="textEmailAddress"
         android:hint=" הכנס אימייל"
-        android:layout_marginTop="50dp"/>
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/etPassLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"
+        android:gravity="right"
         android:hint="הכנס סיסמא"
-        android:gravity="right"/>
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/tvErrorLogIn"
         android:layout_width="399dp"
         android:layout_height="71dp"
-        android:textColor="#A10404"
-        android:text="" />
+        android:text=""
+        android:textColor="#A10404" />
 
     <Button
         android:id="@+id/btnSignIn"
-       android:layout_marginTop="300dp"
-        android:layout_width="156dp"
-        android:layout_height="63dp"
-        android:text="התחבר"
-        android:textSize="30sp"
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:layout_gravity="center"/>
+
+        android:text="התחבר"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/btnBack"
-        android:layout_width="156dp"
-        android:layout_height="63dp"
-        android:text="חזור "
-        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:layout_gravity="center"/>
+        android:text="חזור "
+        android:textSize="30sp" />
 
 </LinearLayout>

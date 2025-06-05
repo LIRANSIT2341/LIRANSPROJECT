@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
     tools:context=".screen.UserProfileActivity">
 
     <TextView
@@ -11,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="User Profile"
+        android:text="פרופיל משתמש"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="First Name:"
+        android:text="שם פרטי:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_user_profile_title" />
@@ -35,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="Enter your first name"
+        android:hint="הכנס שם פרטי"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_user_first_name_label"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Last Name:"
+        android:text="שם משפחה:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tv_user_first_name_label"
         app:layout_constraintTop_toBottomOf="@id/et_user_first_name" />
@@ -57,7 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:hint="Enter your last name"
+        android:hint="הכנס שם משפחה"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_user_last_name_label"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,18 +72,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Email:"
+        android:text="אימייל:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tv_user_last_name_label"
         app:layout_constraintTop_toBottomOf="@id/et_user_last_name" />
 
-    <EditText
+    <TextView
         android:id="@+id/et_user_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:hint="Enter your email"
         android:textSize="18sp"
+        android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="@+id/tv_user_email_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_user_email_label"
@@ -93,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Phone:"
+        android:text="טלפון:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tv_user_email_label"
         app:layout_constraintTop_toBottomOf="@id/et_user_email" />
@@ -103,7 +105,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:hint="Enter your phone number"
+        android:hint="הכנס מספר טלפון"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_user_phone_label"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,31 +118,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Password:"
+        android:text="סיסמה:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/tv_user_phone_label"
         app:layout_constraintTop_toBottomOf="@id/et_user_phone" />
 
-    <EditText
+    <TextView
         android:id="@+id/et_user_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:hint="Enter your password"
         android:textSize="18sp"
+        android:textColor="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="@+id/tv_user_password_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_user_password_label"
         app:layout_constraintStart_toStartOf="@+id/et_user_phone"
         app:layout_constraintTop_toTopOf="@+id/tv_user_password_label" />
 
-
     <Button
         android:id="@+id/btn_edit_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Edit Profile"
+        android:text="עדכן פרופיל"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_user_password" />
@@ -150,10 +151,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Delete Profile"
+        android:text="מחק פרופיל"
+        android:backgroundTint="@android:color/holo_red_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_edit_profile" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

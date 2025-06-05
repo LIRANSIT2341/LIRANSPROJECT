@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="תודה שבחרתם ב-YAD 0!"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="האפליקציה נוצרה מתוך צורך ממשי – למצוא פתרון חכם, נוח ויעיל לפריטים חדשים שנרכשו אך לא נעשה בהם שימוש. בעזרת YAD 0, כל אחד יכול להעלות פריטים חדשים שברצונו למכור, לעיין בהצעות של אחרים, ולרכוש מוצרים חדשים במחיר הוגן – בלי כאב ראש, בלי בלגן.\n\nהמערכת כוללת אפשרויות חיפוש, ניהול אישי, תקשורת בין מוכר לקונה, ותהליך רכישה פשוט וברור.\n\nאנו מאמינים בקנייה חכמה, בקהילה תומכת, ובפלטפורמה שמהווה גשר בין צורך להזדמנות."
+            android:textSize="16sp"
+            android:lineSpacingExtra="8dp"
+            android:textAlignment="textStart" />
+
+    </LinearLayout>
+
+</ScrollView> 

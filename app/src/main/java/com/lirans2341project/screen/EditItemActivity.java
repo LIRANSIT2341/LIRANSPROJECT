@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -34,7 +35,7 @@ public class EditItemActivity extends AppCompatActivity {
 
     private ImageView itemImageView;
     private TextInputEditText nameEditText, typeEditText, sizeEditText, colorEditText, fabricEditText, priceEditText;
-    private Button changeImageButton, saveButton;
+    private Button changeImageButton, saveButton, deleteButton;
     private DatabaseService databaseService;
     private Item currentItem;
     private String itemId;
@@ -84,9 +85,11 @@ public class EditItemActivity extends AppCompatActivity {
         priceEditText = findViewById(R.id.item_price);
         changeImageButton = findViewById(R.id.change_image_button);
         saveButton = findViewById(R.id.save_button);
+        deleteButton = findViewById(R.id.delete_button);
 
         changeImageButton.setOnClickListener(v -> openImagePicker());
         saveButton.setOnClickListener(v -> saveChanges());
+        deleteButton.setOnClickListener(v -> showDeleteConfirmation());
     }
 
     private void setupImagePicker() {
@@ -116,21 +119,29 @@ public class EditItemActivity extends AppCompatActivity {
         databaseService.getItem(itemId, new DatabaseService.DatabaseCallback<Item>() {
             @Override
             public void onCompleted(Item item) {
-                if (item == null) {
-                    Toast.makeText(EditItemActivity.this, "הפריט לא נמצא", Toast.LENGTH_SHORT).show();
+                currentItem = item;
+                
+                // בדיקה אם הפריט נמכר
+                if (item.getStatus() == Item.PurchaseStatus.SOLD) {
+                    Toast.makeText(EditItemActivity.this, "לא ניתן לערוך פריט שנמכר", Toast.LENGTH_SHORT).show();
                     finish();
                     return;
                 }
-                currentItem = item;
-                populateFields(item);
+                
+                displayItemDetails();
             }
 
             @Override
             public void onFailed(Exception e) {
+                Log.e(TAG, "Error loading item", e);
                 Toast.makeText(EditItemActivity.this, "שגיאה בטעינת הפריט", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
+    }
+
+    private void displayItemDetails() {
+        populateFields(currentItem);
     }
 
     private void populateFields(Item item) {
@@ -206,6 +217,30 @@ public class EditItemActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void showDeleteConfirmation() {
+        new AlertDialog.Builder(this)
+            .setTitle("מחיקת פריט")
+            .setMessage("האם אתה בטוח שברצונך למחוק את הפריט?")
+            .setPositiveButton("כן, מחק", (dialog, which) -> deleteItem())
+            .setNegativeButton("ביטול", null)
+            .show();
+    }
+
+    private void deleteItem() {
+        databaseService.deleteItem(currentItem.getId(), new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void result) {
+                Toast.makeText(EditItemActivity.this, "הפריט נמחק בהצלחה", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(EditItemActivity.this, "שגיאה במחיקת הפריט", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

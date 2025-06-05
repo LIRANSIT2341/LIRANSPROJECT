@@ -1,34 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:orientation="vertical"
+    android:background="@color/background">
 
-    <TextView
-        android:id="@+id/store_title"
-        android:layout_width="wrap_content"
+    <!-- Filter Section -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/filter_section"
+        style="@style/Widget.App.CardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="חנות"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="16dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Filter Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="סינון מוצרים"
+                android:layout_marginBottom="16dp"
+                style="@style/TextAppearance.App.Headline2"
+                android:drawableStart="@drawable/ic_filter"
+                android:drawablePadding="8dp"/>
+
+            <!-- Item Type Filter -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/item_type_filter_layout"
+                style="@style/Widget.App.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="סוג פריט"
+                app:startIconDrawable="@drawable/ic_category">
+
+                <AutoCompleteTextView
+                    android:id="@+id/item_type_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Price Range Filter -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="טווח מחירים"
+                style="@style/TextAppearance.App.Body1"
+                android:textStyle="bold"
+                android:drawableStart="@drawable/ic_price"
+                android:drawablePadding="8dp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/min_price_layout"
+                    style="@style/Widget.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:hint="מחיר מינימלי">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/min_price_filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/max_price_layout"
+                    style="@style/Widget.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:hint="מחיר מקסימלי">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/max_price_filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- Buttons Layout -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="end">
+
+                <!-- Clear Filter Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/clear_filter_button"
+                    style="@style/Widget.App.Button.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="נקה סינון"
+                    app:icon="@drawable/ic_clear"
+                    app:iconGravity="start"/>
+
+                <!-- Apply Filter Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/apply_filter_button"
+                    style="@style/Widget.App.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="החל סינון"
+                    app:icon="@drawable/ic_check"
+                    app:iconGravity="start"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Existing RecyclerView with updated styling -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_store_items"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:clipToPadding="false"
+        android:layout_weight="1"
         android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/store_title" />
+        android:clipToPadding="false"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout> 
+</LinearLayout> 
